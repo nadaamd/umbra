@@ -18,16 +18,18 @@ export const CONFIG = {
   USDC_DECIMALS: 6,
   USDT_DECIMALS: 6,
 
-  // ── 1inch ──────────────────────────────────────────────────
-  ONEINCH_API_KEY: process.env.ONEINCH_API_KEY ?? "",
-  ONEINCH_BASE: "https://api.1inch.dev/swap/v6.0",
+  // ── Exécution : swap Uniswap v3 direct (on-chain, sans API) ─
+  // Pool d'évacuation : USDC/USDT 0.01% (fee = 100), le stable/stable le plus profond.
+  UNI_FEE: 100,
+  UNI_QUOTER_V2: "0x61fFE014bA17989E743c5F6cB21bF9697530B21e",
+  UNI_SWAP_ROUTER_02: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
   MAX_SLIPPAGE_PCT: 1, // tolérance de slippage de l'ordre (%)
 
   // ── Exécution ──────────────────────────────────────────────
   // DRY_RUN=false + EXECUTION_PRIVATE_KEY => envoie la tx pour de vrai.
   DRY_RUN: process.env.DRY_RUN !== "false",
   EXECUTION_PRIVATE_KEY: process.env.EXECUTION_PRIVATE_KEY ?? "",
-  RPC_URL: process.env.RPC_URL ?? "https://eth.llamarpc.com",
+  RPC_URL: process.env.RPC_URL ?? "https://ethereum-rpc.publicnode.com",
 
   // ── Chemin du flux CBRI (le cerveau Python) ────────────────
   CBRI_CSV: resolve(__dirname, "../../quant-backtest/output/cbri_USDC_depeg_SVB_2023-03.csv"),

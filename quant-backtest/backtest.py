@@ -3,8 +3,8 @@ Backtest CircuitBreaker.ai — trouve le seuil de déclenchement optimal τ*.
 
 Objectif (Option 1, slippage-aware) : pour un utilisateur détenant $1M USDC,
 on évacue vers USDT à la première bougie où CBRI ≥ τ. L'exécution se fait au
-prix de l'USDC de l'instant, NET du slippage réel (modèle calibré 1inch sur la
-liquidité v3 historique qui s'effondre).
+prix de l'USDC de l'instant, NET du slippage réel (modèle v3 sur la liquidité
+historique qui s'effondre, ancre calme validée live via Uniswap QuoterV2).
 
     Fonds_sauvés(τ) = Valeur_évacuée(τ) − Valeur_pire_cas
     Valeur_évacuée(τ) = POSITION · P_exit(τ) · (1 − slippage(τ))
@@ -23,7 +23,6 @@ import matplotlib.pyplot as plt
 
 import config
 import slippage
-from oneinch_anchor import live_exit_slippage
 
 
 def load_panel() -> pd.DataFrame:
@@ -46,7 +45,7 @@ def run_backtest(df: pd.DataFrame, s_calm: float) -> pd.DataFrame:
     p_trough = df["usdc_usd"].min()
     worst_case = P * p_trough                    # subir le fond, sans agir
 
-    # Slippage d'évacuation par bougie (calibré sur l'ancre 1inch calme)
+    # Slippage d'évacuation par bougie (ancre calme + effondrement de liquidité)
     l_ref = df.loc[df["candle"] < config.CALM_END_TS, "L"].median()
     df["exit_slip"] = slippage.exit_slippage(df["L"].values, l_ref, s_calm)
 
@@ -139,11 +138,11 @@ def make_plots(df: pd.DataFrame, res: pd.DataFrame, tau_star: pd.Series, s_calm:
     fig.tight_layout()
     fig.savefig(os.path.join(config.OUTPUT_DIR, "fig2_funds_saved_vs_tau.png"), dpi=130)
 
-    # ── Figure 3 : explosion du slippage + ancre 1inch ───────
+    # ── Figure 3 : explosion du slippage + ancre exécution ───
     fig, ax = plt.subplots(figsize=(11, 5))
     ax.plot(df["dt"], df["exit_slip"] * 100, color="#c47", lw=1.6, label="Slippage sortie $1M (modèle v3)")
     ax.axhline(s_calm * 100, color="#0a7", ls="--", lw=1.4,
-               label=f"Ancre 1inch live (calme) = {s_calm*1e4:.0f} bps")
+               label=f"Ancre exécution calme (Uniswap QuoterV2) = {s_calm*1e4:.0f} bps")
     ax.axvline(tau_star["trigger_dt"], color="#111", lw=1.5, alpha=0.7,
                label=f"Évacuation τ* @ {tau_star['exit_slip_bps']:.0f} bps")
     ax.set_ylabel("Slippage d'évacuation (%)")
@@ -158,9 +157,9 @@ def make_plots(df: pd.DataFrame, res: pd.DataFrame, tau_star: pd.Series, s_calm:
 def main():
     df = load_panel()
 
-    anchor = live_exit_slippage()
-    s_calm = anchor["slippage"]
-    print("⚓ Ancre 1inch :", anchor["note"])
+    s_calm = config.SLIP_CALM_DEFAULT
+    print(f"⚓ Ancre exécution (calme) : {s_calm*1e4:.0f} bps "
+          f"(validée live on-chain via Uniswap QuoterV2 dans live-execution/)")
 
     res = run_backtest(df, s_calm)
     tau_star = pick_tau_star(res)

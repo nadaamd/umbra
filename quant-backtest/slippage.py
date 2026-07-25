@@ -1,5 +1,5 @@
 """
-Modèle de slippage de l'évacuation, calibré sur l'ancre 1inch live.
+Modèle de slippage de l'évacuation (exécution = swap Uniswap v3 direct).
 
 Physique : le slippage d'une sortie de taille fixe ($1M) est inversement lié à
 la profondeur disponible. On utilise la liquidité active L de la pool USDC/USDT
@@ -7,10 +7,10 @@ la profondeur disponible. On utilise la liquidité active L de la pool USDC/USDT
 
     slip(t) = min( CAP , s_calm · (L_ref / L(t))^BETA )
 
-  - s_calm : coût en marché calme = ancre 1inch live (sinon 5 bps).
+  - s_calm : coût en marché calme, validé live via Uniswap QuoterV2 (sinon 5 bps).
   - L_ref  : liquidité active médiane pré-crash -> slip(pré-crash) ≈ s_calm.
-  - BETA<1 : tempère l'effondrement mono-tick (1inch route multi-venues).
-  - CAP    : 1inch route ailleurs au-delà -> plafond réaliste.
+  - BETA<1 : tempère l'effondrement mono-tick (une sortie réelle traverse des ticks).
+  - CAP    : plafond réaliste d'une sortie fractionnée.
 """
 import numpy as np
 import config

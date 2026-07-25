@@ -3,7 +3,7 @@
 > **Le disjoncteur financier autonome de la DeFi.**
 > Détecte les risques systémiques (crises de liquidité, depegs) via un modèle quantitatif, et évacue automatiquement les fonds des utilisateurs vers un stablecoin sûr — **avant** que la pool ne s'effondre.
 
-🏆 *ETH Global Lisbon 2026 — Tracks : The Graph · 0G · 1inch*
+🏆 *ETH Global Lisbon 2026 — Tracks : The Graph · 0G* · (exécution Uniswap v3)
 
 ---
 
@@ -21,20 +21,22 @@ Un **disjoncteur** on-chain qui surveille en continu un **Score de Risque (CBRI,
 
 ## 🏗️ Architecture & Sponsors
 
-| Couche | Sponsor | Rôle |
+| Couche | Techno | Rôle |
 |---|---|---|
-| **Données** | **The Graph** | Historique + temps réel des pools Uniswap v3 (swaps tick-level, liquidité, prix) |
-| **IA / Infra** | **0G** | Stockage & traçabilité décentralisée du modèle et des scores de risque |
-| **Exécution** | **1inch** | Best-execution multi-DEX de l'évacuation d'urgence |
+| **Données** 🏆 | **The Graph** | Historique + temps réel des pools Uniswap v3 (swaps tick-level, liquidité, prix) |
+| **IA / Infra** 🏆 | **0G** | Stockage & traçabilité décentralisée du modèle et des scores de risque |
+| **Exécution** | **Uniswap v3** | Swap d'évacuation on-chain direct (QuoterV2 + SwapRouter02, sans API) |
 
-> **Rigueur backtest vs prod :** le backtest **simule l'exécution contre la liquidité on-chain historique** (physique réelle de la pool via The Graph) ; la prod utilise **1inch** pour le routing live. On price le passé par la physique, on exécute le présent par le meilleur routeur.
+*🏆 = tracks visés. Uniswap = infra data + exécution (on ne postule pas à leur track).*
+
+> **Rigueur backtest vs prod :** le backtest **simule l'exécution contre la liquidité on-chain historique** (physique réelle de la pool via The Graph) ; l'exécution live lit un **quote Uniswap QuoterV2 on-chain** puis swap via SwapRouter02. On price le passé par la physique, on exécute le présent au prix réel de la pool.
 
 ## 📂 Structure
 
 ```
 circuitbreaker-ai/
 ├── quant-backtest/     # Python — le cerveau (modèle CBRI + backtesting)
-└── live-execution/     # TypeScript — les muscles (exécution 1inch)
+└── live-execution/     # TypeScript — les muscles (exécution Uniswap + traçabilité 0G)
 ```
 
 ## 📊 Résultat backtest — Depeg USDC (SVB, 11 mars 2023)
@@ -91,7 +93,7 @@ cd live-execution && npm run publish0g
 ## 🚀 Démarrage
 
 ```bash
-cp .env.example .env      # THEGRAPH_API_KEY (requis) + ONEINCH_API_KEY (ancre live)
+cp .env.example .env      # THEGRAPH_API_KEY (requis)  ·  RPC_URL (optionnel, défaut public)
 cd quant-backtest && pip install -r requirements.txt
 python thegraph_client.py   # ① extraction des données du crash (The Graph)
 python features.py          # ② calcul du CBRI
@@ -99,7 +101,7 @@ python backtest.py          # ③ backtest τ* + figures
 
 cd ../live-execution && npm install
 npm run publish0g           # ④ ancrage modèle+scores sur 0G (traçabilité)
-npm run demo                # ⑤ replay du depeg → le breaker évacue via 1inch
+npm run demo                # ⑤ replay du depeg → le breaker évacue via Uniswap v3
 ```
 
 ---

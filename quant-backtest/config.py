@@ -11,7 +11,6 @@ load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
 # The Graph — réseau décentralisé (gateway)
 # ─────────────────────────────────────────────────────────────
 THEGRAPH_API_KEY = os.getenv("THEGRAPH_API_KEY", "")
-ONEINCH_API_KEY = os.getenv("ONEINCH_API_KEY", "")
 SUBGRAPH_ID = os.getenv("UNISWAP_V3_SUBGRAPH_ID", "5zvR82QoaXYFyDEKLZ9t6v9adgnptxYpKpSbxtgVENFV")
 SUBGRAPH_URL = f"https://gateway.thegraph.com/api/{THEGRAPH_API_KEY}/subgraphs/id/{SUBGRAPH_ID}"
 
@@ -74,18 +73,20 @@ W_DEPEG = 1.0
 POSITION_USD = 1_000_000          # position type évacuée : $1M USDC
 SAFE_ASSET = "USDT"               # actif refuge (a tenu son peg pendant SVB)
 
-# Modèle de slippage v3 tempéré, calibré sur l'ancre 1inch live :
+# Modèle de slippage v3 tempéré (exécution = swap Uniswap v3 direct) :
 #   slip(t) = min(CAP, s_calm · (L_ref / L(t))^BETA)
 # L = liquidité active de la pool USDC/USDT (s'effondre x2e7 pendant le crash).
-# BETA<1 tempère l'effondrement mono-tick (1inch route multi-venues).
+# BETA<1 tempère l'effondrement mono-tick (une sortie réelle traverse des ticks).
 SLIP_BETA = 0.30
-SLIP_CAP = 0.30                   # 1inch route ailleurs au-delà -> plafond 30 %
-SLIP_CALM_DEFAULT = 0.0005        # 5 bps si l'ancre 1inch live est indisponible
+SLIP_CAP = 0.30                   # plafond réaliste d'une sortie fractionnée
+# Ancre calme = coût d'exécution en marché normal, validée live on-chain via
+# le QuoterV2 Uniswap (cf. live-execution/src/uniswap.ts).
+SLIP_CALM_DEFAULT = 0.0005        # 5 bps
 
 # Fenêtre "calme" de référence (USDC encore au peg) pour mesurer les faux positifs
 CALM_END_TS = 1678449600          # 2023-03-10 12:00 UTC
 
-# Adresses tokens (Ethereum mainnet) pour l'ancre 1inch
+# Adresses tokens (Ethereum mainnet)
 USDC_ADDRESS = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
 USDT_ADDRESS = "0xdAC17F958D2ee523a2206206994597C13D831ec7"
 
