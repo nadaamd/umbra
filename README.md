@@ -1,4 +1,4 @@
-# 🛑 CircuitBreaker.ai
+# 🌒 Umbra
 
 > **Le disjoncteur financier autonome de la DeFi.**
 > Détecte les risques systémiques (crises de liquidité, depegs) via un modèle quantitatif, et évacue automatiquement les fonds des utilisateurs vers un stablecoin sûr — **avant** que la pool ne s'effondre.
@@ -34,7 +34,7 @@ Un **disjoncteur** on-chain qui surveille en continu un **Score de Risque (CBRI,
 ## 📂 Structure
 
 ```
-circuitbreaker-ai/
+umbra/
 ├── quant-backtest/     # Python — le cerveau (modèle CBRI + backtesting)
 └── live-execution/     # TypeScript — les muscles (exécution Uniswap + traçabilité 0G)
 ```
@@ -65,7 +65,7 @@ Rejoué sur **48 066 swaps réels** ($5,57 Md de volume) extraits via The Graph,
 ![Fonds sauvés vs τ](quant-backtest/output/fig2_funds_saved_vs_tau.png)
 ![Explosion du slippage](quant-backtest/output/fig3_slippage_explosion.png)
 
-## 🧮 Le modèle : CBRI (CircuitBreaker Risk Index)
+## 🧮 Le modèle : CBRI (Composite Break-Risk Index)
 
 3 sous-signaux normalisés par sigmoïde, agrégés en **Noisy-OR pondéré** (un disjoncteur saute si *un seul* signal vire au rouge) :
 
@@ -85,7 +85,7 @@ Un disjoncteur qu'on doit croire aveuglément ne vaut rien. Chaque score de risq
 
 ```bash
 cd live-execution && npm run publish0g
-# 🌳 0G Storage root hash : 0x7e30144d58abdbd6963fa00bad42b13edaa564eec958a2395bc42c010e1440e5
+# 🌳 0G Storage root hash : 0xc9926d168f786c07df854fa4774528396abee05b57a13fe260f0a64a1d47f90b
 ```
 
 > Le root hash 0G se calcule **en local** (aucun wallet requis). L'upload réel sur 0G testnet ne nécessite qu'un wallet financé (faucet).

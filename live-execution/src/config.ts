@@ -45,7 +45,7 @@ export const CONFIG = {
 // Spécification du modèle CBRI ancrée sur 0G (miroir de quant-backtest/config.py).
 export const CBRI_MODEL_SPEC = {
   name: "CBRI",
-  full_name: "CircuitBreaker Risk Index",
+  full_name: "Composite Break-Risk Index",
   version: "1.0.0",
   aggregation: "weighted Noisy-OR: CBRI = 100·(1 − ∏(1 − wᵢ·sᵢ)),  sᵢ = σ(αᵢ·(xᵢ − seuilᵢ))",
   candle_seconds: 300,

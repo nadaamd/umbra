@@ -1,8 +1,8 @@
 {
-  "schema": "circuitbreaker.ai/attestation/v1",
+  "schema": "umbra/attestation/v1",
   "model": {
     "name": "CBRI",
-    "full_name": "CircuitBreaker Risk Index",
+    "full_name": "Composite Break-Risk Index",
     "version": "1.0.0",
     "aggregation": "weighted Noisy-OR: CBRI = 100·(1 − ∏(1 − wᵢ·sᵢ)),  sᵢ = σ(αᵢ·(xᵢ − seuilᵢ))",
     "candle_seconds": 300,

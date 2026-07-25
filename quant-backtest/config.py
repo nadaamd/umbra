@@ -1,5 +1,5 @@
 """
-Configuration centrale du backtest CircuitBreaker.ai.
+Configuration centrale du backtest Umbra.
 Tout ce qu'on est susceptible de tuner pour la démo est ici.
 """
 import os

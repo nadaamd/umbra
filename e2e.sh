@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# E2E full-stack CircuitBreaker.ai — enchaîne toute la chaîne et vérifie
+# E2E full-stack Umbra — enchaîne toute la chaîne et vérifie
 # chaque étape : données -> CBRI -> backtest τ* -> ancrage 0G -> évacuation.
 # Sert de répétition générale avant la démo.
 #

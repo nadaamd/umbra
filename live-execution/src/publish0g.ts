@@ -24,7 +24,7 @@ function buildAttestation() {
     .update(JSON.stringify(scores))
     .digest("hex");
   return {
-    schema: "circuitbreaker.ai/attestation/v1",
+    schema: "umbra/attestation/v1",
     model: CBRI_MODEL_SPEC,
     dataset: {
       crash: "USDC_depeg_SVB_2023-03",

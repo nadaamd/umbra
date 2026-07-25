@@ -3,7 +3,7 @@ import { loadCbriSeries } from "./feed.js";
 import { evacuate } from "./breaker.js";
 
 /**
- * CircuitBreaker.ai — moteur d'exécution.
+ * Umbra — moteur d'exécution.
  *
  *   npm run demo              rejoue le depeg USDC ; le breaker fire à CBRI ≥ τ*
  *   npm run fire -- 80        teste un déclenchement à CBRI = 80

@@ -1,5 +1,5 @@
 """
-Backtest CircuitBreaker.ai — trouve le seuil de déclenchement optimal τ*.
+Backtest Umbra — trouve le seuil de déclenchement optimal τ*.
 
 Objectif (Option 1, slippage-aware) : pour un utilisateur détenant $1M USDC,
 on évacue vers USDT à la première bougie où CBRI ≥ τ. L'exécution se fait au
@@ -126,7 +126,7 @@ def make_plots(df: pd.DataFrame, res: pd.DataFrame, tau_star: pd.Series, s_calm:
     ax1.axvline(tau_star["trigger_dt"], color="#0a7", lw=2, alpha=0.8)
     ax1.annotate(f"ÉVACUATION\n{tau_star['trigger_dt']:%d/%m %H:%M}\n@ \\${tau_star['exit_price']:.3f}",
                  xy=(tau_star["trigger_dt"], 0.95), color="#0a7", fontsize=9, fontweight="bold")
-    ax1.set_title("CircuitBreaker.ai — Depeg USDC (SVB, mars 2023) : le breaker sort à \\$%.3f, "
+    ax1.set_title("Umbra — Depeg USDC (SVB, mars 2023) : le breaker sort à \\$%.3f, "
                   "le fond était à \\$%.3f" % (tau_star["exit_price"], res.attrs["p_trough"]))
     fig.legend(loc="lower left", bbox_to_anchor=(0.1, 0.12), fontsize=8)
     fig.tight_layout()
