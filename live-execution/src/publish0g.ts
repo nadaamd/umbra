@@ -46,39 +46,41 @@ async function main() {
   console.log(`   digest scores (sha256) : ${attestation.scores_sha256.slice(0, 32)}…`);
 
   // ── Root hash 0G (Merkle) — calcul LOCAL, sans wallet ──────
+  // try/finally : le handle est TOUJOURS fermé, même si merkleTree/upload lève.
   const file = await ZgFile.fromFilePath(CONFIG.ATTESTATION_JSON);
-  const [tree, treeErr] = await file.merkleTree();
-  if (treeErr !== null || !tree) {
-    await file.close();
-    throw new Error(`Calcul Merkle 0G échoué : ${treeErr}`);
-  }
-  const rootHash = tree.rootHash();
-  console.log(`\n🌳 0G Storage root hash : ${rootHash}`);
-  console.log(`   → c'est l'ancre de traçabilité vérifiable (indépendante du wallet).`);
+  try {
+    const [tree, treeErr] = await file.merkleTree();
+    if (treeErr !== null || !tree) {
+      throw new Error(`Calcul Merkle 0G échoué : ${treeErr}`);
+    }
+    const rootHash = tree.rootHash();
+    console.log(`\n🌳 0G Storage root hash : ${rootHash}`);
+    console.log(`   → c'est l'ancre de traçabilité vérifiable (indépendante du wallet).`);
 
-  // ── Upload réel sur 0G testnet (si wallet financé) ─────────
-  if (!CONFIG.ZEROG_PRIVATE_KEY) {
-    await file.close();
-    console.log(`\n⏭️  Upload 0G sauté : ZEROG_PRIVATE_KEY absente.`);
-    console.log(`   Pour publier réellement : wallet testnet 0G financé (faucet) dans .env,`);
-    console.log(`   puis relance — l'artefact sera stocké sur 0G et adressable par ce root hash.`);
-    return;
-  }
+    // ── Upload réel sur 0G testnet (si wallet financé) ─────────
+    if (!CONFIG.ZEROG_PRIVATE_KEY) {
+      console.log(`\n⏭️  Upload 0G sauté : ZEROG_PRIVATE_KEY absente.`);
+      console.log(`   Pour publier réellement : wallet testnet 0G financé (faucet) dans .env,`);
+      console.log(`   puis relance — l'artefact sera stocké sur 0G et adressable par ce root hash.`);
+      return;
+    }
 
-  console.log(`\n⛓️  Upload sur 0G testnet…`);
-  const provider = new ethers.JsonRpcProvider(CONFIG.ZEROG_RPC);
-  const signer = new ethers.Wallet(CONFIG.ZEROG_PRIVATE_KEY, provider);
-  const indexer = new Indexer(CONFIG.ZEROG_INDEXER);
-  // cast: ethers est en double build (ESM/CJS) entre notre code et le SDK 0G ;
-  // le Wallet est structurellement un Signer valide au runtime.
-  const [tx, upErr] = await indexer.upload(file, CONFIG.ZEROG_RPC, signer as never);
-  await file.close();
-  if (upErr !== null) {
-    throw new Error(`Upload 0G échoué : ${upErr}`);
+    console.log(`\n⛓️  Upload sur 0G testnet…`);
+    const provider = new ethers.JsonRpcProvider(CONFIG.ZEROG_RPC);
+    const signer = new ethers.Wallet(CONFIG.ZEROG_PRIVATE_KEY, provider);
+    const indexer = new Indexer(CONFIG.ZEROG_INDEXER);
+    // cast: ethers est en double build (ESM/CJS) entre notre code et le SDK 0G ;
+    // le Wallet est structurellement un Signer valide au runtime.
+    const [tx, upErr] = await indexer.upload(file, CONFIG.ZEROG_RPC, signer as never);
+    if (upErr !== null) {
+      throw new Error(`Upload 0G échoué : ${upErr}`);
+    }
+    console.log(`   ✅ publié sur 0G — tx : ${tx}`);
+    console.log(`   🔎 ${CONFIG.ZEROG_EXPLORER}/${tx}`);
+    console.log(`   root hash : ${rootHash}`);
+  } finally {
+    await file.close();
   }
-  console.log(`   ✅ publié sur 0G — tx : ${tx}`);
-  console.log(`   🔎 ${CONFIG.ZEROG_EXPLORER}/${tx}`);
-  console.log(`   root hash : ${rootHash}`);
 }
 
 main().catch((e) => {

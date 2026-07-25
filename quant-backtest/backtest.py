@@ -47,6 +47,11 @@ def run_backtest(df: pd.DataFrame, s_calm: float) -> pd.DataFrame:
 
     # Slippage d'évacuation par bougie (ancre calme + effondrement de liquidité)
     l_ref = df.loc[df["candle"] < config.CALM_END_TS, "L"].median()
+    if not np.isfinite(l_ref) or l_ref <= 0:
+        # pas de fenêtre calme exploitable -> repli sur la médiane globale
+        l_ref = df["L"].median()
+        if not np.isfinite(l_ref) or l_ref <= 0:
+            raise ValueError("Liquidité de référence introuvable (L absent/nul).")
     df["exit_slip"] = slippage.exit_slippage(df["L"].values, l_ref, s_calm)
 
     calm = df[df["candle"] < config.CALM_END_TS]
@@ -84,12 +89,21 @@ def pick_tau_star(res: pd.DataFrame) -> pd.Series:
     On prend le haut du plateau = marge de sécurité maximale vs faux alarmes.
     """
     clean = res[res["false_positive"] == 0]
-    pool = clean if not clean.empty else res
+    pool = (clean if not clean.empty else res).sort_values("tau").reset_index(drop=True)
     best = pool["funds_saved"].max()
-    plateau = pool[pool["funds_saved"] >= best - 1.0]      # à $1 près
-    star = plateau.loc[plateau["tau"].idxmax()].copy()
-    star["plateau_lo"] = int(plateau["tau"].min())
-    star["plateau_hi"] = int(plateau["tau"].max())
+    tol = max(1.0, 1e-4 * abs(best))                       # tolérance à l'échelle de la position
+    within = (pool["funds_saved"] >= best - tol).to_numpy()
+
+    # τ* = seuil le plus HAUT dans la zone optimale
+    star_pos = int(np.max(np.where(within)[0]))
+    # plateau CONTIGU en redescendant depuis τ* (ne prétend pas optimal un τ qui ne l'est pas)
+    lo_pos = star_pos
+    while lo_pos - 1 >= 0 and within[lo_pos - 1]:
+        lo_pos -= 1
+
+    star = pool.loc[star_pos].copy()
+    star["plateau_lo"] = int(pool.loc[lo_pos, "tau"])
+    star["plateau_hi"] = int(pool.loc[star_pos, "tau"])
     return star
 
 

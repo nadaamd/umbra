@@ -23,10 +23,13 @@ export async function evacuate(ctx: { cbri: number; usdcUsd: number; dt?: string
   console.log("🛑 ─────────────────────────────────────────────");
 
   let quote: { outUsdt: number; slippageBps: number; dstAmount: bigint };
+  let quoteOk = false;
   try {
     quote = await getQuote(amount);
+    quoteOk = true;
     console.log(`   quote Uniswap : ${fmt(quote.outUsdt)} USDT en sortie (LIVE on-chain, QuoterV2)`);
   } catch (e) {
+    // Fallback modélisé UNIQUEMENT pour l'affichage en dry-run (dstAmount=0n : inutilisable en LIVE).
     quote = { outUsdt: CONFIG.POSITION_USDC * (1 - 0.0005), slippageBps: 5, dstAmount: 0n };
     console.log(`   quote Uniswap : ${fmt(quote.outUsdt)} USDT (modélisé — RPC indisponible)`);
   }
@@ -40,6 +43,11 @@ export async function evacuate(ctx: { cbri: number; usdcUsd: number; dt?: string
 
   if (!CONFIG.EXECUTION_PRIVATE_KEY) {
     throw new Error("Mode LIVE mais EXECUTION_PRIVATE_KEY absente dans .env.");
+  }
+  // SÉCURITÉ : jamais de swap réel sans quote valide -> minOut=0 = zéro protection slippage.
+  if (!quoteOk) {
+    throw new Error("Quote on-chain indisponible — évacuation LIVE annulée "
+      + "(refus d'un swap sans protection de slippage).");
   }
   const minAcceptable = minOut(quote.dstAmount, CONFIG.MAX_SLIPPAGE_PCT);
   console.log(`   exécution    : swap on-chain (min sortie ${fmt(Number(minAcceptable) / 1e6)} USDT)…`);

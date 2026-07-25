@@ -14,6 +14,12 @@ import { CONFIG } from "./config.js";
  * Exécution de l'évacuation via Uniswap v3 en direct (aucune API externe).
  *  - Quote LIVE : QuoterV2.quoteExactInputSingle via eth_call (lecture RPC).
  *  - Exécution   : SwapRouter02.exactInputSingle (approve + swap).
+ *
+ * ⚠️ LIMITE MVP (assumée) : routage mono-pool (USDC/USDT 0.01%, exactInputSingle).
+ * Or c'est justement cette pool dont le backtest montre l'effondrement de liquidité
+ * en crise. En prod, l'évacuation doit router multi-pool / multi-hop (fractionner
+ * l'ordre sur plusieurs tiers/venues) pour ne pas subir le mur de slippage — c'est
+ * le prochain incrément (SwapRouter multi-path ou agrégateur on-chain).
  */
 
 const QUOTER_ABI = [

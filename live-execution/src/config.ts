@@ -57,5 +57,7 @@ export const CBRI_MODEL_SPEC = {
   tau_star: 66,
 } as const;
 
+// Arithmétique BigInt de bout en bout : pas de perte de précision même pour
+// de très grandes positions (POSITION_USDC * 1e6 peut dépasser Number.MAX_SAFE_INTEGER).
 export const positionRaw = () =>
-  BigInt(Math.round(CONFIG.POSITION_USDC * 10 ** CONFIG.USDC_DECIMALS));
+  BigInt(CONFIG.POSITION_USDC) * 10n ** BigInt(CONFIG.USDC_DECIMALS);

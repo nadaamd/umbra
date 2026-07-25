@@ -50,13 +50,12 @@ def build_features() -> pd.DataFrame:
     hourly = pd.read_csv(config.RAW_HOURLY_CSV)
     depeg_pool = pd.read_csv(config.RAW_DEPEG_HOURLY_CSV)
 
-    swaps["price"] = price_from_sqrtx96(swaps["sqrtPriceX96"])
     swaps["candle"] = _candle(swaps["timestamp"])
 
     # ── Agrégation swaps par bougie ───────────────────────────
-    g = swaps.groupby("candle")[["price", "amountUSD", "amount0"]]
+    # (le prix USDC/USD vient de la pool stable USDC/USDT, pas de cette pool USDC/WETH)
+    g = swaps.groupby("candle")[["amountUSD", "amount0"]]
     px = g.apply(lambda d: pd.Series({
-        "price": d["price"].iloc[-1],                       # close
         "volume_usd": d["amountUSD"].sum(),
         "net_a0": d["amount0"].sum(),                       # >0 = USDC vendu (fuite)
         "abs_a0": d["amount0"].abs().sum(),
@@ -80,7 +79,6 @@ def build_features() -> pd.DataFrame:
     df["volume_usd"] = df["volume_usd"].fillna(0.0)
     df["net_a0"] = df["net_a0"].fillna(0.0)
     df["abs_a0"] = df["abs_a0"].fillna(0.0)
-    df["price"] = df["price"].ffill().bfill()
 
     # ── Merge TVL (cible) + prix USDC/USD (pool stable) par ffill ─
     hourly = hourly.sort_values("timestamp")
