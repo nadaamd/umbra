@@ -5,6 +5,8 @@
 
 🏆 *ETH Global Lisbon 2026 — Tracks : The Graph · 0G* · (exécution Uniswap v3)
 
+📄 **Papier de recherche** : [`paper/Umbra_CBRI_Paper.docx`](paper/Umbra_CBRI_Paper.docx) — la méthodologie complète du score de risque (généré par `python paper/build_paper.py`).
+
 ---
 
 ## 🎯 Le problème
