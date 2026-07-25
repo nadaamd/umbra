@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# Node / TS
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Secrets & env
+.env
+.env.local
+
+# Data & outputs (cache, on régénère)
+quant-backtest/data/*.csv
+quant-backtest/data/*.json
+quant-backtest/output/*.png
+quant-backtest/output/*.csv
+
+# OS
+.DS_Store
