@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 /**
- * CircuitBreaker.ai — "Institutional Terminal" design tokens.
+ * Umbra — "Institutional Terminal" design tokens.
  * Dark-committed (a risk terminal is dark by design). Functional colors only:
  * risk / safe / armed status hues, a CVD-validated categorical trio, technical greys.
  */

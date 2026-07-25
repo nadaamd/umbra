@@ -1,5 +1,5 @@
 /**
- * Data contracts for CircuitBreaker.ai frontend.
+ * Data contracts for Umbra frontend.
  *
  * These mirror the quant-backtest output exactly (see quant-backtest/features.py
  * and backtest.py). The frontend reads them today from bundled seed JSON

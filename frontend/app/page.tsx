@@ -4,7 +4,7 @@ import { EclipseGlyph } from "@/components/landing/EclipseGlyph";
 import { Reveal } from "@/components/landing/Reveal";
 import { ArrowRight, Github, ArrowUpRight } from "lucide-react";
 
-const GITHUB = "https://github.com/nadaamd/circuitbreaker-ai";
+const GITHUB = "https://github.com/nadaamd/umbra";
 const DEMO = "/terminal";
 
 /* ── eclipse primitives ─────────────────────────────────────── */

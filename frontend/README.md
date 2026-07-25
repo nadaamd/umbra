@@ -1,4 +1,4 @@
-# CircuitBreaker.ai — Frontend
+# Umbra — Frontend
 
 > **Institutional Terminal** for the autonomous DeFi circuit breaker.
 > High-density, data-centric risk dashboard — Bloomberg/Paradigm aesthetic, zero slop.

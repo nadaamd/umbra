@@ -29,7 +29,7 @@ export function RiskGauge() {
     <div className="flex flex-col h-full p-4">
       <div className="flex items-start justify-between">
         <div>
-          <div className="label">CBRI · Circuit Breaker Risk Index</div>
+          <div className="label">CBRI · Composite Break-Risk Index</div>
           <div className="font-mono text-[10px] text-ink3 mt-0.5">
             Noisy-OR · drain ∨ imbalance ∨ depeg
           </div>
