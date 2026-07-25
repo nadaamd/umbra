@@ -6,10 +6,13 @@
   "scripts": {
     "demo": "tsx src/index.ts --replay",
     "fire": "tsx src/index.ts --cbri",
+    "publish0g": "tsx src/publish0g.ts",
     "start": "tsx src/index.ts"
   },
   "dependencies": {
+    "@0glabs/0g-ts-sdk": "^0.3.3",
     "dotenv": "^16.4.5",
+    "ethers": "^6.13.1",
     "viem": "^2.21.0"
   },
   "devDependencies": {

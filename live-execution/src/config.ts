@@ -31,7 +31,29 @@ export const CONFIG = {
 
   // ── Chemin du flux CBRI (le cerveau Python) ────────────────
   CBRI_CSV: resolve(__dirname, "../../quant-backtest/output/cbri_USDC_depeg_SVB_2023-03.csv"),
+
+  // ── 0G — traçabilité décentralisée du modèle & des scores ──
+  ZEROG_RPC: process.env.ZEROG_RPC_URL ?? "https://evmrpc-testnet.0g.ai",
+  ZEROG_INDEXER: "https://indexer-storage-testnet-turbo.0g.ai",
+  ZEROG_PRIVATE_KEY: process.env.ZEROG_PRIVATE_KEY ?? "",
+  ZEROG_EXPLORER: "https://storagescan-galileo.0g.ai/tx",
+  ATTESTATION_JSON: resolve(__dirname, "../../quant-backtest/output/cbri_attestation.json"),
 };
+
+// Spécification du modèle CBRI ancrée sur 0G (miroir de quant-backtest/config.py).
+export const CBRI_MODEL_SPEC = {
+  name: "CBRI",
+  full_name: "CircuitBreaker Risk Index",
+  version: "1.0.0",
+  aggregation: "weighted Noisy-OR: CBRI = 100·(1 − ∏(1 − wᵢ·sᵢ)),  sᵢ = σ(αᵢ·(xᵢ − seuilᵢ))",
+  candle_seconds: 300,
+  signals: {
+    liquidity_drain: { threshold: 0.06, steepness: 60, window: 9, weight: 1.0, unit: "fraction TVL / h" },
+    order_flow_imbalance: { threshold: 0.3, steepness: 15, window: 6, weight: 0.0, note: "non-discriminant sur ce crash" },
+    depeg_divergence: { threshold: 0.012, steepness: 250, weight: 1.0, source: "pool stable USDC/USDT" },
+  },
+  tau_star: 66,
+} as const;
 
 export const positionRaw = () =>
   BigInt(Math.round(CONFIG.POSITION_USDC * 10 ** CONFIG.USDC_DECIMALS));

@@ -77,14 +77,29 @@ CBRI = 100 · (1 − ∏ᵢ (1 − wᵢ·sᵢ))        sᵢ = σ(αᵢ·(xᵢ �
 | **Order-Flow Imbalance** | unidirectionnalité du flux | diagnostic (w=0 ici, non-discriminant) | swaps |
 | **Divergence / depeg** | \|1 − prix USDC\| | **confirmation** | pool stable USDC/USDT |
 
+## 🔒 Traçabilité décentralisée (0G)
+
+Un disjoncteur qu'on doit croire aveuglément ne vaut rien. Chaque score de risque **et le modèle exact qui l'a produit** sont figés dans une *attestation*, dont le **root hash Merkle 0G** est publié sur le stockage décentralisé **0G**. N'importe qui peut re-télécharger l'artefact et vérifier le hash → scoring **auditable et infalsifiable**.
+
+```bash
+cd live-execution && npm run publish0g
+# 🌳 0G Storage root hash : 0x7e30144d58abdbd6963fa00bad42b13edaa564eec958a2395bc42c010e1440e5
+```
+
+> Le root hash 0G se calcule **en local** (aucun wallet requis). L'upload réel sur 0G testnet ne nécessite qu'un wallet financé (faucet).
+
 ## 🚀 Démarrage
 
 ```bash
 cp .env.example .env      # THEGRAPH_API_KEY (requis) + ONEINCH_API_KEY (ancre live)
 cd quant-backtest && pip install -r requirements.txt
-python thegraph_client.py   # ① extraction des données du crash
+python thegraph_client.py   # ① extraction des données du crash (The Graph)
 python features.py          # ② calcul du CBRI
 python backtest.py          # ③ backtest τ* + figures
+
+cd ../live-execution && npm install
+npm run publish0g           # ④ ancrage modèle+scores sur 0G (traçabilité)
+npm run demo                # ⑤ replay du depeg → le breaker évacue via 1inch
 ```
 
 ---
