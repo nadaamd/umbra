@@ -22,6 +22,11 @@ POOL_ADDRESS = "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640"
 TOKEN0_SYMBOL, TOKEN0_DECIMALS = "USDC", 6
 TOKEN1_SYMBOL, TOKEN1_DECIMALS = "WETH", 18
 
+# Pool du depeg : USDC / USDT 0.01% (la stable/stable la plus profonde).
+#   token1Price = prix USDC/USD direct (1.000 au repos, 0.8726 au fond SVB).
+#   Lecture directe -> pas de ratio ETH, pas de décalage de granularité.
+DEPEG_POOL_ADDRESS = "0x3416cf6c708da44db2624d63ea0aaef7113527c6"
+
 # ─────────────────────────────────────────────────────────────
 # Fenêtre du crash de référence : depeg USDC (SVB) — mars 2023
 #   10 mars 00:00 UTC  →  13 mars 00:00 UTC
@@ -36,8 +41,39 @@ END_TS   = 1678665600   # 2023-03-13 00:00:00 UTC
 CANDLE_SECONDS = 5 * 60  # bougies de 5 minutes
 
 # ─────────────────────────────────────────────────────────────
+# Paramètres du modèle CBRI (sigmoïdes des 3 sous-signaux)
+#   s = σ(α · (x − seuil))   puis   CBRI = 100·(1 − ∏(1 − s))  [Noisy-OR]
+# Tunables en live pendant la démo.
+# ─────────────────────────────────────────────────────────────
+# Calibration : chaque sigmoïde doit valoir ≈0 au repos et ≈1 en crise.
+# 1. Fuite de liquidité : v_L = fraction du TVL qui s'évade par heure
+DRAIN_THRESHOLD = 0.06    # 6 %/h = knee ; s(0)=0.05, s(16%)≈1
+DRAIN_STEEPNESS = 60.0
+DRAIN_WINDOW = 9          # lissage : somme glissante sur 9 bougies (45 min)
+
+# 2. Order-Flow Imbalance : I ∈ [0,1], unidirectionnalité du flux
+OFI_THRESHOLD = 0.30      # signal faible sur ce crash -> seuil bas pour le rendre réactif
+OFI_STEEPNESS = 15.0
+OFI_WINDOW = 6
+
+# 3. Divergence de prix / depeg : D = |1 − prix_USDC|
+DEPEG_THRESHOLD = 0.012   # centre ~1.2 % ; s(0.3%)≈0 (bruit de peg normal), s(2%)≈0.9
+DEPEG_STEEPNESS = 250.0
+
+# Poids du Noisy-OR pondéré : CBRI = 100·(1 − ∏(1 − wᵢ·sᵢ))
+# w=0 neutralise un signal non-informatif. OFI non-discriminant sur ce crash
+# (calme ≈ crise ≈ 0.5) -> down-weighté à 0, gardé en diagnostic.
+W_DRAIN = 1.0
+W_OFI = 0.0
+W_DEPEG = 1.0
+
+# ─────────────────────────────────────────────────────────────
 # Chemins
 # ─────────────────────────────────────────────────────────────
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "output")
 RAW_SWAPS_CSV = os.path.join(DATA_DIR, f"swaps_{CRASH_NAME}.csv")
+RAW_LIQ_CSV = os.path.join(DATA_DIR, f"liq_events_{CRASH_NAME}.csv")
+RAW_HOURLY_CSV = os.path.join(DATA_DIR, f"pool_hourly_{CRASH_NAME}.csv")
+RAW_DEPEG_HOURLY_CSV = os.path.join(DATA_DIR, f"depeg_hourly_{CRASH_NAME}.csv")
+FEATURES_CSV = os.path.join(OUTPUT_DIR, f"cbri_{CRASH_NAME}.csv")
