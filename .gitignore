@@ -14,10 +14,10 @@ dist/
 .env
 .env.local
 
-# Data & outputs (cache, on régénère)
+# Data brute (cache The Graph, on régénère)
 quant-backtest/data/*.csv
 quant-backtest/data/*.json
-quant-backtest/output/*.png
+# CSV intermédiaires (régénérés) — mais on GARDE les figures pour le README/juges
 quant-backtest/output/*.csv
 
 # OS
