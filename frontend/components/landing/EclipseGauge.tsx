@@ -14,10 +14,10 @@ const ARM = 40;
 const TAU = 66;
 const N = 120;
 
-const IVORY = "#ece6d8";
-const AMBER = "#f2a93b";
-const RED = "#ff2233";
-const GREEN = "#35c07a";
+const IVORY = "#bfc3ba";
+const AMBER = "#a9aca9";
+const RED = "#bfc3ba";
+const GREEN = "#60495a";
 
 const ease = (x: number) => x * x * (3 - 2 * x);
 
@@ -162,7 +162,7 @@ export function EclipseGauge() {
             cx={cx + moonOffset}
             cy={cy - moonOffset * 0.12}
             r={R + 4}
-            fill="#050505"
+            fill="#2f2235"
             stroke="rgba(236,230,216,0.16)"
             strokeWidth={1}
           />
@@ -204,7 +204,7 @@ export function EclipseGauge() {
             x={22}
             y={sy0 - 8}
             fontSize="11"
-            fill="#6a6357"
+            fill="#837e88"
             fontFamily="var(--font-mono)"
             letterSpacing="0.1em"
           >

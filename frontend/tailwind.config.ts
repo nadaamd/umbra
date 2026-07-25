@@ -14,43 +14,50 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // ── Eclipse shadow-depth scale (deepest → lightest) ──────────────
-        // The whole surface language is one eclipse: total shadow at the
-        // core, warming toward the corona of light at the edge of vision.
-        umbra: "#050505", // total shadow — base
-        "umbra-2": "#0a0908", // shadow, warmed
-        penumbra: "#100e0c", // partial shadow — panels
-        "penumbra-2": "#17140f", // raised partial shadow
-        antumbra: "#211e19", // faint outer edge — hairlines
-        "antumbra-2": "#302c24", // stronger edge
-        corona: "#ece6d8", // the light — warm ivory (eclipse corona)
-        // Aliases kept so existing components resolve to the eclipse scale
-        bg: "#050505",
-        void: "#050505",
-        panel: "#0a0908",
-        panel2: "#100e0c",
-        raised: "#17140f",
-        line: "#211e19",
-        line2: "#302c24",
-        // Ink = graded corona light
-        ink: "#ece6d8",
-        ink2: "#a49b8b",
-        ink3: "#6a6357",
-        ink4: "#423d34",
-        // Reserved status — red prominence is the crisis corona
-        risk: "#ff2233",
-        signal: "#ff2233",
-        "risk-dim": "#7a151d",
-        safe: "#35c07a",
-        "safe-dim": "#1c5f42",
-        armed: "#f2a93b",
-        "armed-dim": "#7a5511",
+        // ── Eclipse scale, re-toned to the Mauve/Violet palette ──────────
+        // Midnight Violet (core shadow) → Vintage Grape → Mauve Shadow,
+        // lightening to Silver and Ash Grey at the corona of light.
+        umbra: "#2f2235", // Midnight Violet — base
+        "umbra-2": "#271b2d", // deeper, for tapes/insets
+        penumbra: "#372a3d", // partial shadow — panels
+        "penumbra-2": "#3f3244", // Vintage Grape — raised partial shadow
+        antumbra: "#493c50", // faint edge — hairlines
+        "antumbra-2": "#60495a", // Mauve Shadow — stronger edge
+        corona: "#bfc3ba", // Ash Grey — the light
+        // Palette, named
+        ash: "#bfc3ba",
+        silver: "#a9aca9",
+        mauve: "#60495a",
+        grape: "#3f3244",
+        violet: "#2f2235",
+        // Aliases so existing components resolve to the palette
+        bg: "#2f2235",
+        void: "#2f2235",
+        panel: "#3f3244",
+        panel2: "#372a3d",
+        raised: "#4a3b52",
+        line: "#493c50",
+        line2: "#60495a",
+        // Ink = graded light (Ash Grey → Silver → muted mauve-grey)
+        ink: "#bfc3ba",
+        ink2: "#a9aca9",
+        ink3: "#837e88",
+        ink4: "#5e5266",
+        // Status, expressed in palette tones only (brightness = severity).
+        // Never color-alone — badges always carry an icon + label.
+        risk: "#bfc3ba", // Ash — alert "lights up" brightest
+        signal: "#bfc3ba",
+        "risk-dim": "#837e88",
+        safe: "#a9aca9", // Silver — readable, calm
+        "safe-dim": "#5e5266",
+        armed: "#60495a", // Mauve — mid, recedes
+        "armed-dim": "#5e5266",
         // CVD-validated categorical trio (sub-signal decomposition) — all-pairs PASS
-        s1: "#3987e5", // blue
-        s2: "#d95926", // orange
-        s3: "#199e70", // aqua
+        s1: "#a9aca9", // silver
+        s2: "#60495a", // mauve
+        s3: "#837e88", // muted
         // Grid / chart chrome
-        grid: "#1a1e23",
+        grid: "#3a2c43",
       },
       fontFamily: {
         mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "monospace"],

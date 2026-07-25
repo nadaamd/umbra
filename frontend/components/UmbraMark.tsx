@@ -5,7 +5,7 @@
 export function UmbraMark({
   size = 24,
   className = "",
-  tone = "#ece6d8",
+  tone = "#bfc3ba",
 }: {
   size?: number;
   className?: string;

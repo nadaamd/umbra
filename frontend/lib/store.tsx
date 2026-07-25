@@ -49,7 +49,7 @@ const Ctx = createContext<BreakerCtx | null>(null);
 
 const TICK_MS = 90;
 
-/** Deterministic 1inch evacuation legs for the demo execution log. */
+/** Deterministic Uniswap evacuation legs for the demo execution log. */
 function buildExecution(summary: Summary, triggerTs: number): ExecutionLeg[] {
   const total = summary.position;
   // A best-execution split across venues, weights summing to 1.

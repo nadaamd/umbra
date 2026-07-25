@@ -6,9 +6,9 @@
   color-scheme: dark;
   /* chart roles — consumed by Recharts via CSS vars where possible */
   --surface-1: #0b0b0c;
-  --risk: #ff2233;
-  --safe: #3ad07f;
-  --armed: #ffb224;
+  --risk: #bfc3ba;
+  --safe: #a9aca9;
+  --armed: #60495a;
 }
 
 html {
@@ -17,14 +17,14 @@ html {
 }
 
 body {
-  background: #050505;
-  color: #ece6d8;
+  background: #2f2235;
+  color: #bfc3ba;
   font-feature-settings: "tnum" 1, "cv01" 1, "ss01" 1;
 }
 
 ::selection {
-  background: rgba(255, 34, 51, 0.28);
-  color: #ece6d8;
+  background: rgba(96, 73, 90, 0.45);
+  color: #bfc3ba;
 }
 
 /* ── Eclipse atmosphere ─────────────────────────────────────────────
@@ -36,36 +36,36 @@ body {
   background:
     radial-gradient(
       116% 84% at 50% -6%,
-      rgba(236, 230, 216, 0.05) 0%,
-      rgba(236, 230, 216, 0.016) 20%,
+      rgba(191, 195, 186, 0.05) 0%,
+      rgba(191, 195, 186, 0.016) 20%,
       transparent 52%
     ),
-    radial-gradient(90% 70% at 50% 34%, #0c0b09 0%, #070605 46%, #050505 100%);
+    radial-gradient(90% 70% at 50% 34%, #3a2c43 0%, #251a2c 46%, #2f2235 100%);
 }
 /* corona from the side — used on the hero eclipse column */
 .umbra-field-r {
   background:
     radial-gradient(
       90% 120% at 88% 40%,
-      rgba(236, 230, 216, 0.06) 0%,
-      rgba(236, 230, 216, 0.015) 24%,
+      rgba(191, 195, 186, 0.06) 0%,
+      rgba(191, 195, 186, 0.015) 24%,
       transparent 54%
     ),
-    radial-gradient(120% 90% at 60% 40%, #0b0a08 0%, #060605 50%, #050505 100%);
+    radial-gradient(120% 90% at 60% 40%, #372a3d 0%, #241a2b 50%, #2f2235 100%);
 }
 
 /* Engineering grid, warmed and faded toward umbra at the frame edges so it
    never reads as a flat template grid. */
 .blueprint {
-  background-image: linear-gradient(rgba(236, 230, 216, 0.026) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(236, 230, 216, 0.026) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(191, 195, 186, 0.026) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(191, 195, 186, 0.026) 1px, transparent 1px);
   background-size: 48px 48px;
   -webkit-mask-image: radial-gradient(130% 100% at 50% 0%, #000 30%, transparent 82%);
   mask-image: radial-gradient(130% 100% at 50% 0%, #000 30%, transparent 82%);
 }
 .blueprint-fine {
-  background-image: linear-gradient(rgba(236, 230, 216, 0.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(236, 230, 216, 0.018) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(191, 195, 186, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(191, 195, 186, 0.018) 1px, transparent 1px);
   background-size: 24px 24px;
   -webkit-mask-image: radial-gradient(120% 100% at 50% 50%, #000 40%, transparent 88%);
   mask-image: radial-gradient(120% 100% at 50% 50%, #000 40%, transparent 88%);
@@ -73,7 +73,7 @@ body {
 
 /* Corona ring — the 1px light edge + faint atmospheric bloom for focal discs. */
 .corona-ring {
-  box-shadow: 0 0 0 1px rgba(236, 230, 216, 0.22), 0 0 46px -8px rgba(236, 230, 216, 0.07);
+  box-shadow: 0 0 0 1px rgba(191, 195, 186, 0.22), 0 0 46px -8px rgba(191, 195, 186, 0.07);
 }
 /* Corner ticks for blueprint frames */
 .tick-frame {
@@ -83,7 +83,7 @@ body {
 .tick-frame::after {
   content: "+";
   position: absolute;
-  color: #423d34;
+  color: #5e5266;
   font-family: var(--font-mono);
   font-size: 12px;
   line-height: 1;
@@ -109,7 +109,7 @@ body {
   line-height: 13px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #6a6357;
+  color: #837e88;
   font-family: var(--font-mono);
 }
 
@@ -135,14 +135,14 @@ body {
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0a0908;
+  background: #3f3244;
 }
 ::-webkit-scrollbar-thumb {
-  background: #302c24;
+  background: #493c50;
   border-radius: 0;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #4a4438;
+  background: #60495a;
 }
 
 /* Recharts: kill default focus outlines, tighten fonts */
@@ -153,7 +153,7 @@ body {
 .recharts-cartesian-axis-tick text {
   font-family: var(--font-mono);
   font-size: 10px;
-  fill: #6a6357;
+  fill: #837e88;
 }
 .recharts-tooltip-wrapper {
   outline: none !important;
@@ -164,7 +164,7 @@ input[type="range"].cb-range {
   -webkit-appearance: none;
   appearance: none;
   height: 3px;
-  background: #302c24;
+  background: #493c50;
   border-radius: 0;
   cursor: pointer;
 }
@@ -173,18 +173,18 @@ input[type="range"].cb-range::-webkit-slider-thumb {
   appearance: none;
   width: 12px;
   height: 18px;
-  background: #ece6d8;
+  background: #bfc3ba;
   border-radius: 1px;
   cursor: grab;
 }
 input[type="range"].cb-range::-webkit-slider-thumb:active {
   cursor: grabbing;
-  background: #f2a93b;
+  background: #a9aca9;
 }
 input[type="range"].cb-range::-moz-range-thumb {
   width: 12px;
   height: 18px;
-  background: #ece6d8;
+  background: #bfc3ba;
   border: none;
   border-radius: 1px;
   cursor: grab;

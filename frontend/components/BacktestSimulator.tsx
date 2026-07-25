@@ -66,33 +66,33 @@ export function BacktestSimulator() {
               domain={[10, 99]}
               ticks={[10, 30, 50, 70, 90]}
               tickLine={false}
-              axisLine={{ stroke: "#211e19" }}
-              tick={{ fontSize: 9, fill: "#6a6357" }}
+              axisLine={{ stroke: "#493c50" }}
+              tick={{ fontSize: 9, fill: "#837e88" }}
             />
             <YAxis
               tickLine={false}
               axisLine={false}
               width={30}
-              tick={{ fontSize: 9, fill: "#6a6357" }}
+              tick={{ fontSize: 9, fill: "#837e88" }}
               tickFormatter={(v) => `${v}k`}
             />
             <ReferenceLine
               x={tauStar}
-              stroke="#ece6d8"
+              stroke="#bfc3ba"
               strokeDasharray="3 2"
               strokeOpacity={0.5}
               label={{
                 value: `τ* ${tauStar}`,
                 position: "top",
-                fill: "#ece6d8",
+                fill: "#bfc3ba",
                 fontSize: 9,
                 fontFamily: "var(--font-mono)",
               }}
             />
-            <ReferenceLine x={tau} stroke="#f2a93b" strokeWidth={1} />
+            <ReferenceLine x={tau} stroke="#a9aca9" strokeWidth={1} />
             <Line
               dataKey="reliable"
-              stroke="#35c07a"
+              stroke="#60495a"
               strokeWidth={2}
               dot={false}
               isAnimationActive={false}
@@ -101,7 +101,7 @@ export function BacktestSimulator() {
             />
             <Line
               dataKey="risky"
-              stroke="#ff2233"
+              stroke="#bfc3ba"
               strokeWidth={2}
               strokeDasharray="3 2"
               dot={false}
@@ -114,12 +114,12 @@ export function BacktestSimulator() {
                 x={sel.tau}
                 y={sel.fundsSaved / 1e3}
                 r={4}
-                fill="#f2a93b"
-                stroke="#050505"
+                fill="#a9aca9"
+                stroke="#2f2235"
                 strokeWidth={1.5}
               />
             )}
-            <Tooltip content={<SweepTip />} cursor={{ stroke: "#423d34" }} />
+            <Tooltip content={<SweepTip />} cursor={{ stroke: "#5e5266" }} />
           </LineChart>
         </ResponsiveContainer>
       </div>
@@ -165,7 +165,7 @@ export function BacktestSimulator() {
         {[
           { l: "Trigger", v: sel ? stampIso(sel.triggerDt).slice(3) : "—", s: "UTC" },
           { l: "Exit price", v: sel ? price4(sel.exitPrice) : "—", s: "USDC" },
-          { l: "Slippage", v: sel ? bps(sel.exitSlipBps) : "—", s: "1inch-cal" },
+          { l: "Slippage", v: sel ? bps(sel.exitSlipBps) : "—", s: "Uniswap-cal" },
           {
             l: "Funds saved",
             v: sel ? usdCompact(sel.fundsSaved) : "—",

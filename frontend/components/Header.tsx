@@ -53,7 +53,7 @@ export function Header() {
         <div className="hidden lg:flex items-center gap-1.5">
           <SponsorChip name="The Graph" role="data" />
           <SponsorChip name="0G" role="infra" />
-          <SponsorChip name="1inch" role="exec" />
+          <SponsorChip name="Uniswap" role="exec" />
         </div>
         <div className="flex items-center gap-1.5 pl-2">
           <span

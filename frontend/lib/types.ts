@@ -81,7 +81,7 @@ export interface Summary {
   successFee: number;
 }
 
-/** An emergency-evacuation swap leg, as it would stream from 1inch execution. */
+/** An emergency-evacuation swap leg, as it would stream from Uniswap execution. */
 export interface ExecutionLeg {
   id: string;
   ts: number;

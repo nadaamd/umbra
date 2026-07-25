@@ -17,7 +17,7 @@ export function RiskGauge() {
   const delta = cbri - prev;
 
   const zoneColor = (v: number) =>
-    v >= tau ? "#ff2233" : v >= arm ? "#f2a93b" : "#35c07a";
+    v >= tau ? "#bfc3ba" : v >= arm ? "#a9aca9" : "#60495a";
   const statusInk =
     status === "TRIGGERED"
       ? "text-risk"
@@ -68,8 +68,8 @@ export function RiskGauge() {
         {/* threshold markers */}
         <div className="relative h-4 mb-1">
           {[
-            { v: arm, label: "ARM", c: "#f2a93b" },
-            { v: tau, label: "τ*", c: "#ff2233" },
+            { v: arm, label: "ARM", c: "#a9aca9" },
+            { v: tau, label: "τ*", c: "#bfc3ba" },
           ].map((m) => (
             <div
               key={m.label}
@@ -99,7 +99,7 @@ export function RiskGauge() {
                 className="flex-1 rounded-[1px] transition-all"
                 style={{
                   height: lit ? "100%" : "62%",
-                  background: lit ? col : "#17140f",
+                  background: lit ? col : "#4a3b52",
                   opacity: isHead ? 1 : lit ? 0.85 : 1,
                   boxShadow: isHead ? `0 0 0 1px ${col}` : "none",
                 }}
@@ -143,7 +143,7 @@ export function RiskGauge() {
                 className="h-full rounded-full"
                 style={{
                   width: `${Math.min(100, s.v * 100)}%`,
-                  background: s.w === 0 ? "#423d34" : "#ece6d8",
+                  background: s.w === 0 ? "#5e5266" : "#bfc3ba",
                 }}
               />
             </div>

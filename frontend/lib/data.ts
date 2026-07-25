@@ -1,7 +1,7 @@
 /**
  * Server-side data access. TODAY: reads bundled seed JSON (real USDC/SVB-depeg
  * data). TO GO LIVE: replace the three getters below with calls to the quant
- * backend (The Graph / 0G stream) and 1inch — the return types are the contract.
+ * backend (The Graph / 0G stream) and Uniswap — the return types are the contract.
  */
 import seriesSeed from "@/public/seed/cbri_series.json";
 import sweepSeed from "@/public/seed/tau_sweep.json";

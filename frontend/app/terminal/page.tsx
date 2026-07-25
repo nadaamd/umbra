@@ -72,7 +72,7 @@ export default function TerminalPage() {
 
             <Panel
               title="Execution & Status"
-              tag="1inch best-exec"
+              tag="Uniswap best-exec"
               className="flex-1 min-h-[300px] xl:min-h-0"
               bodyClass="min-h-0"
             >

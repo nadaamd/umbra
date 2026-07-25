@@ -81,7 +81,7 @@ export function ExecutionPanel() {
             </LogLine>
             {status === "ARMED" && (
               <>
-                <LogLine ts={ts} tone="armed">route staged: {summary?.safeAsset} best-exec via 1inch</LogLine>
+                <LogLine ts={ts} tone="armed">route staged: {summary?.safeAsset} best-exec via Uniswap</LogLine>
                 <LogLine ts={ts} tone="armed">awaiting τ* confirmation…</LogLine>
               </>
             )}
@@ -115,7 +115,7 @@ export function ExecutionPanel() {
             {/* legs */}
             <div className="p-3 space-y-1.5">
               <LogLine ts={execution[0]?.ts ?? ts} tone="risk">
-                ⚡ TRIP @ CBRI {tau} — 1inch best-execution split · $1M USDC → {summary?.safeAsset}
+                ⚡ TRIP @ CBRI {tau} — Uniswap best-execution split · $1M USDC → {summary?.safeAsset}
               </LogLine>
               {execution.map((l) => (
                 <div

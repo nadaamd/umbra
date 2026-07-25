@@ -53,8 +53,8 @@ export function DrainChart() {
           >
             <defs>
               <linearGradient id="drainFill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#d95926" stopOpacity={0.3} />
-                <stop offset="100%" stopColor="#d95926" stopOpacity={0.02} />
+                <stop offset="0%" stopColor="#60495a" stopOpacity={0.3} />
+                <stop offset="100%" stopColor="#60495a" stopOpacity={0.02} />
               </linearGradient>
             </defs>
             <XAxis
@@ -63,33 +63,33 @@ export function DrainChart() {
               domain={[start ?? 0, end ?? 1]}
               tickFormatter={hhmm}
               tickLine={false}
-              axisLine={{ stroke: "#211e19" }}
-              tick={{ fontSize: 9, fill: "#6a6357" }}
+              axisLine={{ stroke: "#493c50" }}
+              tick={{ fontSize: 9, fill: "#837e88" }}
               minTickGap={40}
             />
             <YAxis
               tickLine={false}
               axisLine={false}
               width={28}
-              tick={{ fontSize: 9, fill: "#6a6357" }}
+              tick={{ fontSize: 9, fill: "#837e88" }}
               tickFormatter={(v) => `${v}`}
             />
             <ReferenceLine
               y={DRAIN_THRESHOLD}
-              stroke="#f2a93b"
+              stroke="#a9aca9"
               strokeDasharray="3 3"
               strokeOpacity={0.7}
               label={{
                 value: "knee 6%/h",
                 position: "insideTopRight",
-                fill: "#f2a93b",
+                fill: "#a9aca9",
                 fontSize: 9,
                 fontFamily: "var(--font-mono)",
               }}
             />
             <Area
               dataKey="drain"
-              stroke="#d95926"
+              stroke="#60495a"
               strokeWidth={1.5}
               fill="url(#drainFill)"
               isAnimationActive={false}
@@ -97,7 +97,7 @@ export function DrainChart() {
             />
             <Tooltip
               content={<DrainTip />}
-              cursor={{ stroke: "#423d34", strokeWidth: 1 }}
+              cursor={{ stroke: "#5e5266", strokeWidth: 1 }}
             />
           </AreaChart>
         </ResponsiveContainer>

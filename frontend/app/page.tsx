@@ -1,7 +1,7 @@
 import { UmbraMark } from "@/components/UmbraMark";
-import { EclipseGauge } from "@/components/landing/EclipseGauge";
 import { EclipseGlyph } from "@/components/landing/EclipseGlyph";
 import { Reveal } from "@/components/landing/Reveal";
+import { ElegantShape } from "@/components/ui/shape-landing-hero";
 import { ArrowRight, Github, ArrowUpRight } from "lucide-react";
 
 const GITHUB = "https://github.com/nadaamd/umbra";
@@ -12,7 +12,7 @@ const DEMO = "/terminal";
 /** A tiny eclipse at a given occlusion (0 = full light, 1 = totality). */
 function MiniEclipse({
   p,
-  color = "#ece6d8",
+  color = "#bfc3ba",
   size = 16,
 }: {
   p: number;
@@ -82,85 +82,89 @@ function Metric({
 export default function Landing() {
   return (
     <div className="min-h-screen bg-umbra text-ink relative">
-      {/* NAV — solid umbra, no glass */}
-      <nav className="fixed top-0 inset-x-0 z-50 border-b border-line bg-umbra">
-        <div className="max-w-6xl mx-auto px-5 h-14 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-2.5">
-            <UmbraMark size={22} />
-            <span className="font-display font-bold text-[17px] tracking-[0.06em]">
+      {/* NAV — floating island bar (solid, no glass) */}
+      <nav className="fixed top-3 md:top-5 inset-x-0 z-50 px-4">
+        <div className="relative max-w-5xl mx-auto flex items-center justify-between gap-4 h-14 pl-5 pr-2 bg-panel border border-line2 rounded-xl">
+          {/* logo */}
+          <a href="/" className="flex items-center gap-2.5 shrink-0">
+            <UmbraMark size={20} />
+            <span className="font-display font-bold text-[16px] tracking-[0.16em]">
               UMBRA
             </span>
           </a>
-          <div className="flex items-center gap-1 sm:gap-6">
-            <a href="#how" className="hidden sm:block font-mono text-[12px] text-ink2 hover:text-ink transition-colors">
+
+          {/* center links */}
+          <div className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+            <a href="#how" className="font-mono font-bold text-[15px] text-ink2 hover:text-ink transition-colors">
               Mechanism
             </a>
-            <a href="#proof" className="hidden sm:block font-mono text-[12px] text-ink2 hover:text-ink transition-colors">
+            <a href="#proof" className="font-mono font-bold text-[15px] text-ink2 hover:text-ink transition-colors">
               Backtest
             </a>
-            <a href={GITHUB} target="_blank" rel="noreferrer" className="hidden sm:flex items-center gap-1.5 font-mono text-[12px] text-ink2 hover:text-ink transition-colors">
-              <Github size={13} /> GitHub
+            <a href="#built" className="font-mono font-bold text-[15px] text-ink2 hover:text-ink transition-colors">
+              Built on
             </a>
-            <a href={DEMO} className="flex items-center gap-1.5 font-mono text-[12px] border border-line2 text-ink px-3 h-8 hover:border-risk hover:text-risk transition-colors">
-              Launch terminal <ArrowRight size={13} />
+          </div>
+
+          {/* actions */}
+          <div className="flex items-center gap-3 shrink-0">
+            <a
+              href={GITHUB}
+              target="_blank"
+              rel="noreferrer"
+              className="text-ink3 hover:text-ink transition-colors"
+              aria-label="GitHub"
+            >
+              <Github size={16} />
+            </a>
+            <a
+              href={DEMO}
+              className="group flex items-center gap-1.5 font-mono text-[12px] tracking-wide uppercase border border-line2 text-ink px-3.5 h-10 rounded-lg hover:border-risk hover:text-risk transition-colors"
+            >
+              Terminal
+              <ArrowRight size={13} className="group-hover:translate-x-0.5 transition-transform" />
             </a>
           </div>
         </div>
       </nav>
 
       {/* HERO */}
-      <header className="relative border-b border-line umbra-field-r overflow-hidden">
-        <div className="absolute inset-0 blueprint opacity-70 pointer-events-none" />
-        <div className="max-w-6xl mx-auto px-5 pt-32 pb-16 md:pt-40 md:pb-24 relative">
-          {/* instrument readout header */}
-          <div className="font-mono text-[10px] text-ink4 mb-10 flex flex-wrap gap-x-7 gap-y-1 tracking-wide">
-            <span>ETH GLOBAL LISBON · 2026</span>
-            <span>THE GRAPH / 0G / 1INCH</span>
-            <span className="text-risk">◐ SYSTEM ARMED</span>
-          </div>
+      <header className="relative border-b border-line overflow-hidden bg-[#2f2235]">
+        {/* animated shapes background — Kokonut UI, re-toned to the mauve palette */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#60495a]/25 via-transparent to-[#3f3244]/25 blur-3xl" />
+          <ElegantShape delay={0.3} width={600} height={140} rotate={12} gradient="from-[#60495a]/[0.30]" className="left-[-10%] md:left-[-5%] top-[15%] md:top-[20%]" />
+          <ElegantShape delay={0.5} width={500} height={120} rotate={-15} gradient="from-[#a9aca9]/[0.14]" className="right-[-5%] md:right-[0%] top-[70%] md:top-[75%]" />
+          <ElegantShape delay={0.4} width={300} height={80} rotate={-8} gradient="from-[#bfc3ba]/[0.12]" className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%]" />
+          <ElegantShape delay={0.6} width={200} height={60} rotate={20} gradient="from-[#3f3244]/[0.45]" className="right-[15%] md:right-[20%] top-[10%] md:top-[15%]" />
+          <ElegantShape delay={0.7} width={150} height={40} rotate={-25} gradient="from-[#60495a]/[0.22]" className="left-[20%] md:left-[25%] top-[5%] md:top-[10%]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#2f2235] via-transparent to-[#2f2235]/80" />
+        </div>
+        <div className="max-w-6xl mx-auto px-5 pt-36 pb-20 md:pt-48 md:pb-32 relative z-10">
+          <div className="max-w-3xl mx-auto text-center">
+            <h1 className="font-display font-bold text-4xl sm:text-6xl md:text-7xl mb-6 md:mb-8 tracking-tight leading-[0.98]">
+              <span className="bg-clip-text text-transparent bg-gradient-to-b from-[#a9aca9] to-[#bfc3ba]">
+                The shadow that guards
+              </span>
+              <br />
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#bfc3ba] via-[#a9aca9] to-[#60495a]">
+                your funds.
+              </span>
+            </h1>
 
-          <div className="grid lg:grid-cols-[1.02fr_0.98fr] gap-x-12 gap-y-14 items-center">
-            {/* copy */}
-            <div>
-              <h1 className="font-display font-bold leading-[0.96] tracking-[-0.025em] text-[44px] sm:text-[60px] md:text-[70px]">
-                The shadow
-                <br />
-                that guards
-                <br />
-                your <span className="text-risk">funds.</span>
-              </h1>
-              <p className="mt-7 text-ink2 text-[15px] md:text-base leading-relaxed max-w-lg">
-                Umbra is the <span className="text-ink">autonomous circuit breaker</span>{" "}
-                for DeFi. It prices systemic risk in real time — one index,{" "}
-                <span className="text-ink">0 to 100</span> — and evacuates your
-                position to safety <span className="text-ink">before</span> the
-                pool collapses into totality.
-              </p>
+            <p className="text-base sm:text-lg md:text-xl text-[#a9aca9] mb-9 leading-relaxed font-light tracking-wide max-w-xl mx-auto">
+              An automatic safety switch for your crypto. The moment a crash
+              begins, Umbra moves your money to safety.
+            </p>
 
-              <div className="mt-9 flex flex-wrap items-center gap-3">
-                <a href={DEMO} className="group flex items-center gap-2 bg-risk text-umbra font-mono text-sm px-5 h-11 hover:bg-corona hover:text-umbra transition-colors">
-                  View demo
-                  <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
-                </a>
-                <a href={GITHUB} target="_blank" rel="noreferrer" className="flex items-center gap-2 border border-line2 text-ink font-mono text-sm px-5 h-11 hover:border-ink3 transition-colors">
-                  <Github size={15} /> View GitHub repo
-                </a>
-              </div>
-
-              <div className="mt-10 pt-6 border-t border-line flex items-center gap-3 font-mono text-[11px] text-ink3">
-                <MiniEclipse p={1} color="#35c07a" size={15} />
-                Backtested on the real USDC depeg (SVB, Mar 2023) —{" "}
-                <span className="text-ink">+$126.9k saved</span> on $1M.
-              </div>
-            </div>
-
-            {/* the eclipse instrument */}
-            <div className="relative">
-              <EclipseGauge />
-              <div className="mt-3 font-mono text-[10px] text-ink4 flex justify-between">
-                <span>fig.01 — risk as an eclipse</span>
-                <span>SAFE → PENUMBRA → TOTALITY</span>
-              </div>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <a href={DEMO} className="group flex items-center gap-2 bg-risk text-umbra font-mono text-sm px-5 h-11 hover:bg-corona hover:text-umbra transition-colors">
+                View demo
+                <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
+              </a>
+              <a href={GITHUB} target="_blank" rel="noreferrer" className="flex items-center gap-2 border border-line2 text-ink font-mono text-sm px-5 h-11 hover:border-ink3 transition-colors">
+                <Github size={15} /> View GitHub repo
+              </a>
             </div>
           </div>
         </div>
@@ -180,7 +184,7 @@ export default function Landing() {
                 ["POSITION", "$1,000,000"],
                 ["DATA", "The Graph"],
                 ["INFRA", "0G"],
-                ["EXECUTION", "1inch"],
+                ["EXECUTION", "Uniswap"],
               ].map(([a, b], i) => (
                 <span key={i} className="flex items-center">
                   <span className="text-ink4 ml-9">/</span>
@@ -238,7 +242,7 @@ export default function Landing() {
         <div className="absolute inset-0 blueprint-fine pointer-events-none" />
         <div className="max-w-6xl mx-auto px-5 py-20 md:py-28 relative">
           <Reveal>
-            <SectionTag n="02" p={0.5} color="#f2a93b">The mechanism</SectionTag>
+            <SectionTag n="02" p={0.5} color="#a9aca9">The mechanism</SectionTag>
             <h2 className="font-display font-semibold text-[30px] md:text-[42px] leading-[1.04] tracking-[-0.015em] max-w-2xl">
               One index. One threshold.
               One <span className="text-risk">automated</span> exit.
@@ -265,8 +269,8 @@ export default function Landing() {
                 phase: "evacuate" as const,
                 n: "03",
                 t: "Evacuate",
-                d: "The instant CBRI crosses the optimal threshold τ*, Umbra routes a best-execution exit to a safe stablecoin through 1inch.",
-                tag: "1inch",
+                d: "The instant CBRI crosses the optimal threshold τ*, Umbra swaps your position into a safe stablecoin on Uniswap.",
+                tag: "Uniswap",
               },
             ].map(({ phase, n, t, d, tag }, i) => (
               <Reveal key={t} delay={i * 90}>
@@ -309,7 +313,7 @@ export default function Landing() {
       <section id="proof" className="border-b border-line">
         <div className="max-w-6xl mx-auto px-5 py-20 md:py-28">
           <Reveal>
-            <SectionTag n="03" p={0.9} color="#ff2233">The proof · backtest</SectionTag>
+            <SectionTag n="03" p={0.9} color="#bfc3ba">The proof · backtest</SectionTag>
             <div className="grid md:grid-cols-[1fr_1fr] gap-10 items-end">
               <h2 className="font-display font-semibold text-[30px] md:text-[42px] leading-[1.04] tracking-[-0.015em]">
                 Replayed on the real crash. Umbra exits at{" "}
@@ -345,7 +349,7 @@ export default function Landing() {
               <DepegChart />
               <div className="flex flex-wrap items-center gap-x-5 gap-y-1 mt-4 font-mono text-[10px] text-ink3">
                 <span className="flex items-center gap-1.5">
-                  <span className="w-3 h-[2px] bg-[#cfc7b5]" /> USDC price
+                  <span className="w-3 h-[2px] bg-[#a9aca9]" /> USDC price
                 </span>
                 <span className="flex items-center gap-1.5">
                   <span className="w-2 h-2 bg-safe" /> Umbra evacuation @ τ*
@@ -367,7 +371,7 @@ export default function Landing() {
       </section>
 
       {/* STACK */}
-      <section className="border-b border-line">
+      <section id="built" className="border-b border-line scroll-mt-24">
         <div className="max-w-6xl mx-auto px-5 py-16">
           <Reveal>
             <SectionTag n="04" p={0.05}>Built on</SectionTag>
@@ -375,7 +379,7 @@ export default function Landing() {
               {[
                 ["The Graph", "Data", "Tick-level Uniswap v3 history & real-time — swaps, liquidity, price."],
                 ["0G", "Infra", "Decentralised storage & traceability of the risk model and CBRI scores."],
-                ["1inch", "Execution", "Best-execution multi-DEX routing of the emergency evacuation."],
+                ["Uniswap", "Execution", "On-chain swap execution of the emergency evacuation into a safe stablecoin."],
               ].map(([name, role, desc]) => (
                 <div key={name} className="bg-umbra p-6">
                   <div className="flex items-baseline justify-between">
@@ -457,16 +461,16 @@ function DepegChart() {
 
   return (
     <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="w-full h-40">
-      <line x1="0" y1={y(1)} x2={W} y2={y(1)} stroke="#423d34" strokeWidth="1" strokeDasharray="3 4" />
-      <line x1="0" y1={y(troughV)} x2={W} y2={y(troughV)} stroke="#ff2233" strokeWidth="1" strokeDasharray="2 5" opacity="0.6" />
-      <polygon points={`0,${H} ${line} ${W},${H}`} fill="#ece6d8" opacity="0.04" />
-      <polyline points={line} fill="none" stroke="#cfc7b5" strokeWidth="1.8" vectorEffect="non-scaling-stroke" />
-      <line x1={x(evacIdx)} y1="0" x2={x(evacIdx)} y2={H} stroke="#35c07a" strokeWidth="1" opacity="0.5" />
-      <circle cx={x(evacIdx)} cy={y(pts[evacIdx])} r="5" fill="#35c07a" stroke="#050505" strokeWidth="2" />
-      <text x={x(evacIdx) + 8} y={y(pts[evacIdx]) - 8} fontSize="11" fill="#35c07a" fontFamily="var(--font-mono)">
+      <line x1="0" y1={y(1)} x2={W} y2={y(1)} stroke="#5e5266" strokeWidth="1" strokeDasharray="3 4" />
+      <line x1="0" y1={y(troughV)} x2={W} y2={y(troughV)} stroke="#60495a" strokeWidth="1" strokeDasharray="2 5" opacity="0.8" />
+      <polygon points={`0,${H} ${line} ${W},${H}`} fill="#bfc3ba" opacity="0.04" />
+      <polyline points={line} fill="none" stroke="#a9aca9" strokeWidth="1.8" vectorEffect="non-scaling-stroke" />
+      <line x1={x(evacIdx)} y1="0" x2={x(evacIdx)} y2={H} stroke="#bfc3ba" strokeWidth="1" opacity="0.55" />
+      <circle cx={x(evacIdx)} cy={y(pts[evacIdx])} r="5" fill="#bfc3ba" stroke="#2f2235" strokeWidth="2" />
+      <text x={x(evacIdx) + 8} y={y(pts[evacIdx]) - 8} fontSize="11" fill="#bfc3ba" fontFamily="var(--font-mono)">
         EVAC $1.0000
       </text>
-      <text x={W - 6} y={y(troughV) + 14} textAnchor="end" fontSize="10" fill="#ff2233" fontFamily="var(--font-mono)">
+      <text x={W - 6} y={y(troughV) + 14} textAnchor="end" fontSize="10" fill="#a9aca9" fontFamily="var(--font-mono)">
         trough $0.873
       </text>
     </svg>
