@@ -1,131 +1,131 @@
 # 🌒 Umbra
 
-> **Le disjoncteur financier autonome de la DeFi.**
-> Détecte les risques systémiques (crises de liquidité, depegs) via un modèle quantitatif, et évacue automatiquement les fonds des utilisateurs vers un stablecoin sûr — **avant** que la pool ne s'effondre.
+> **The autonomous financial circuit breaker for DeFi.**
+> Detects systemic risk (liquidity crises, depegs) through a quantitative model, and automatically evacuates users' funds into a safe stablecoin — **before** the pool collapses.
 
-🏆 *ETH Global Lisbon 2026 — Tracks : The Graph · 0G* · (exécution Uniswap v3)
+🏆 *ETH Global Lisbon 2026 — Tracks: The Graph · 0G* · (Uniswap v3 execution)
 
-📄 **Papier de recherche** — méthodologie complète du score de risque : [PDF](paper/Umbra_CBRI_Paper.pdf) · [Word](paper/Umbra_CBRI_Paper.docx). Source unique (`paper/content.py`), regénérable via `python paper/build_paper.py` (Word) et `python paper/build_pdf.py` (PDF).
+📄 **Research paper** — full risk-score methodology: [PDF](paper/Umbra_CBRI_Paper.pdf) · [Word](paper/Umbra_CBRI_Paper.docx). Single source (`paper/content.py`), regenerable via `python paper/build_paper.py` (Word) and `python paper/build_pdf.py` (PDF).
 
 ---
 
-## 🎯 Le problème
+## 🎯 The problem
 
-Quand une pool DeFi part en crise (depeg, fuite de liquidité), l'utilisateur moyen s'en rend compte **trop tard** : le temps de comprendre, la liquidité s'est évaporée et le slippage de sortie a explosé. Les pertes de mars 2023 (depeg USDC), Terra/UST, stETH… se comptent en **milliards**.
+When a DeFi pool goes into crisis (depeg, liquidity flight), the average user realizes it **too late**: by the time they understand what's happening, liquidity has evaporated and exit slippage has exploded. The losses of March 2023 (USDC depeg), Terra/UST, stETH… run into the **billions**.
 
-## 💡 La solution
+## 💡 The solution
 
-Un **disjoncteur** on-chain qui surveille en continu un **Score de Risque (CBRI, 0→100)** et déclenche une évacuation d'urgence dès que le seuil optimal `τ*` est franchi.
+An on-chain **circuit breaker** that continuously monitors a **Risk Score (CBRI, 0→100)** and triggers an emergency evacuation as soon as the optimal threshold `τ*` is crossed.
 
-- **Modèle quant (CBRI)** — 3 signaux agrégés en *Noisy-OR* : vitesse de fuite de liquidité, déséquilibre de pool, divergence de prix.
-- **Seuil optimal `τ*`** — prouvé par backtesting sur de vrais crashs : le point exact qui **maximise les fonds sauvés nets**.
-- **Business model aligné** — *success fee* uniquement sur la perte évitée. On ne gagne que si l'utilisateur gagne.
+- **Quant model (CBRI)** — 3 signals aggregated via *Noisy-OR*: liquidity-flight speed, pool imbalance, price divergence.
+- **Optimal threshold `τ*`** — proven by backtesting on real crashes: the exact point that **maximizes net funds saved**.
+- **Aligned business model** — a *success fee* charged only on the loss avoided. We only earn if the user wins.
 
 ## 🏗️ Architecture & Sponsors
 
-| Couche | Techno | Rôle |
+| Layer | Tech | Role |
 |---|---|---|
-| **Données** 🏆 | **The Graph** | Historique + temps réel des pools Uniswap v3 (swaps tick-level, liquidité, prix) |
-| **IA / Infra** 🏆 | **0G** | Stockage & traçabilité décentralisée du modèle et des scores de risque |
-| **Exécution** | **Uniswap v3** | Swap d'évacuation on-chain direct (QuoterV2 + SwapRouter02, sans API) |
+| **Data** 🏆 | **The Graph** | Historical + real-time Uniswap v3 pool data (tick-level swaps, liquidity, price) |
+| **AI / Infra** 🏆 | **0G** | Decentralized storage & traceability of the model and risk scores |
+| **Execution** | **Uniswap v3** | Direct on-chain evacuation swap (QuoterV2 + SwapRouter02, no API) |
 
-*🏆 = tracks visés. Uniswap = infra data + exécution (on ne postule pas à leur track).*
+*🏆 = targeted tracks. Uniswap = data infra + execution (we are not applying to their track).*
 
-> **Rigueur backtest vs prod :** le backtest **simule l'exécution contre la liquidité on-chain historique** (physique réelle de la pool via The Graph) ; l'exécution live lit un **quote Uniswap QuoterV2 on-chain** puis swap via SwapRouter02. On price le passé par la physique, on exécute le présent au prix réel de la pool.
+> **Backtest vs. production rigor:** the backtest **simulates execution against historical on-chain liquidity** (the pool's real physics via The Graph); live execution reads an **on-chain Uniswap QuoterV2 quote** then swaps via SwapRouter02. We price the past with physics, and execute the present at the pool's real price.
 
 ## 📂 Structure
 
 ```
 umbra/
-├── quant-backtest/     # Python — le cerveau (modèle CBRI + backtesting)
-└── live-execution/     # TypeScript — les muscles (exécution Uniswap + traçabilité 0G)
+├── quant-backtest/     # Python — the brain (CBRI model + backtesting)
+└── live-execution/     # TypeScript — the muscle (Uniswap execution + 0G traceability)
 ```
 
-## 📊 Résultat backtest — Depeg USDC (SVB, 11 mars 2023)
+## 📊 Backtest result — USDC depeg (SVB, March 11, 2023)
 
-Rejoué sur **48 066 swaps réels** ($5,57 Md de volume) extraits via The Graph, pour une **position de $1M USDC**.
+Replayed on **48,066 real swaps** ($5.57B of volume) extracted via The Graph, for a **$1M USDC position**.
 
 | | |
 |---|---|
-| **τ\* optimal** | **66 / 100** (plateau optimal [10–66], 0 faux positif en marché calme) |
-| **Déclenchement** | 10/03 14:10 UTC — *17h avant le fond*, USDC encore à **$1.0000** |
-| **Fond du depeg (sans agir)** | $0.8726 → position à **$872 595** |
-| **💰 Fonds sauvés** | **$126 900 (12,7 %)** — success fee 10 % = **$12 690** |
+| **Optimal τ\*** | **66 / 100** (optimal plateau [10–66], 0 false positives in calm markets) |
+| **Trigger** | Mar 10, 14:10 UTC — *17h before the bottom*, USDC still at **$1.0000** |
+| **Depeg bottom (no action)** | $0.8726 → position worth **$872,595** |
+| **💰 Funds saved** | **$126,900 (12.7%)** — 10% success fee = **$12,690** |
 
-**Le coût d'attendre** (chaque point de CBRI attendu = de l'argent perdu) :
+**The cost of waiting** (every CBRI point you wait = money lost):
 
-| Seuil τ | Sortie | Prix | Slippage | Sauvés |
+| τ threshold | Exit | Price | Slippage | Saved |
 |---|---|---|---|---|
-| **10–66 (τ\*)** | 10/03 14:10 | **$1.0000** | 5 bps | **$126.9k** |
-| 67–72 | 11/03 00:15 | $0.9892 | 53 bps | $111.4k |
-| 73–98 | 11/03 01:00 | $0.9726 | 91 bps | $91.1k |
-| 99 | 11/03 03:00 | $0.9371 | **657 bps** | $2.9k |
+| **10–66 (τ\*)** | Mar 10, 14:10 | **$1.0000** | 5 bps | **$126.9k** |
+| 67–72 | Mar 11, 00:15 | $0.9892 | 53 bps | $111.4k |
+| 73–98 | Mar 11, 01:00 | $0.9726 | 91 bps | $91.1k |
+| 99 | Mar 11, 03:00 | $0.9371 | **657 bps** | $2.9k |
 
-> La liquidité active de la pool USDC/USDT s'effondre de **×23 000 000** pendant le crash → le slippage de sortie explose. Sortir à τ\* = quasi gratuit ; attendre la confirmation = mur de liquidité.
+> The active liquidity of the USDC/USDT pool collapses by **×23,000,000** during the crash → exit slippage explodes. Exiting at τ\* = near free; waiting for confirmation = a liquidity wall.
 
-![CBRI vs prix](quant-backtest/output/fig1_cbri_vs_price.png)
-![Fonds sauvés vs τ](quant-backtest/output/fig2_funds_saved_vs_tau.png)
-![Explosion du slippage](quant-backtest/output/fig3_slippage_explosion.png)
+![CBRI vs price](quant-backtest/output/fig1_cbri_vs_price.png)
+![Funds saved vs τ](quant-backtest/output/fig2_funds_saved_vs_tau.png)
+![Slippage explosion](quant-backtest/output/fig3_slippage_explosion.png)
 
-## 🧮 Le modèle : CBRI (Composite Break-Risk Index)
+## 🧮 The model: CBRI (Composite Break-Risk Index)
 
-3 sous-signaux normalisés par sigmoïde, agrégés en **Noisy-OR pondéré** (un disjoncteur saute si *un seul* signal vire au rouge) :
+3 sub-signals normalized by a sigmoid, aggregated via a **weighted Noisy-OR** (a breaker trips if *a single* signal turns red):
 
 ```
-CBRI = 100 · (1 − ∏ᵢ (1 − wᵢ·sᵢ))        sᵢ = σ(αᵢ·(xᵢ − seuilᵢ))
+CBRI = 100 · (1 − ∏ᵢ (1 − wᵢ·sᵢ))        sᵢ = σ(αᵢ·(xᵢ − thresholdᵢ))
 ```
 
-| Signal | Mesure | Rôle | Source |
+| Signal | Measure | Role | Source |
 |---|---|---|---|
-| **Fuite de liquidité** | vitesse de retrait LP (mints−burns / TVL·h) | **alerte précoce** | swaps + mints/burns |
-| **Order-Flow Imbalance** | unidirectionnalité du flux | diagnostic (w=0 ici, non-discriminant) | swaps |
-| **Divergence / depeg** | \|1 − prix USDC\| | **confirmation** | pool stable USDC/USDT |
+| **Liquidity flight** | LP withdrawal speed (mints−burns / TVL·h) | **early warning** | swaps + mints/burns |
+| **Order-Flow Imbalance** | flow unidirectionality | diagnostic (w=0 here, non-discriminant) | swaps |
+| **Divergence / depeg** | \|1 − USDC price\| | **confirmation** | USDC/USDT stable pool |
 
-## 🔒 Traçabilité décentralisée (0G)
+## 🔒 Decentralized traceability (0G)
 
-Un disjoncteur qu'on doit croire aveuglément ne vaut rien. Chaque score de risque **et le modèle exact qui l'a produit** sont figés dans une *attestation*, dont le **root hash Merkle 0G** est publié sur le stockage décentralisé **0G**. N'importe qui peut re-télécharger l'artefact et vérifier le hash → scoring **auditable et infalsifiable**.
+A circuit breaker you have to trust blindly is worthless. Each risk score **and the exact model that produced it** are frozen into an *attestation*, whose **0G Merkle root hash** is published on **0G** decentralized storage. Anyone can re-download the artifact and verify the hash → **auditable and tamper-proof** scoring.
 
 ```bash
 cd live-execution && npm run publish0g
-# 🌳 0G Storage root hash : 0xc9926d168f786c07df854fa4774528396abee05b57a13fe260f0a64a1d47f90b
+# 🌳 0G Storage root hash: 0xc9926d168f786c07df854fa4774528396abee05b57a13fe260f0a64a1d47f90b
 ```
 
-> Le root hash 0G se calcule **en local** (aucun wallet requis). L'upload réel sur 0G testnet ne nécessite qu'un wallet financé (faucet).
+> The 0G root hash is computed **locally** (no wallet required). The actual upload to the 0G testnet only needs a funded wallet (faucet).
 
-## 🚀 Démarrage
+## 🚀 Getting started
 
 ```bash
-cp .env.example .env      # THEGRAPH_API_KEY (requis)  ·  RPC_URL (optionnel, défaut public)
+cp .env.example .env      # THEGRAPH_API_KEY (required)  ·  RPC_URL (optional, public default)
 cd quant-backtest && pip install -r requirements.txt
-python thegraph_client.py   # ① extraction des données du crash (The Graph)
-python features.py          # ② calcul du CBRI
+python thegraph_client.py   # ① extract the crash data (The Graph)
+python features.py          # ② compute the CBRI
 python backtest.py          # ③ backtest τ* + figures
 
 cd ../live-execution && npm install
-npm run publish0g           # ④ ancrage modèle+scores sur 0G (traçabilité)
-npm run demo                # ⑤ replay du depeg → le breaker évacue via Uniswap v3
+npm run publish0g           # ④ anchor model+scores on 0G (traceability)
+npm run demo                # ⑤ replay the depeg → the breaker evacuates via Uniswap v3
 ```
 
 ## 🧪 Tests
 
-**29 tests unitaires** couvrant le cœur logique (modèle, slippage, sélection de τ*, exécution) :
+**29 unit tests** covering the core logic (model, slippage, τ* selection, execution):
 
 ```bash
-# Quant (Python) — 21 tests : sigmoïde, prix v3, Noisy-OR, slippage, τ*, fonds sauvés
+# Quant (Python) — 21 tests: sigmoid, v3 price, Noisy-OR, slippage, τ*, funds saved
 cd quant-backtest && pip install -r requirements-dev.txt && python -m pytest
 
-# Exécution (TS) — 8 tests : conversion position, slippage bps, minOut, parsing feed
+# Execution (TS) — 8 tests: position conversion, slippage bps, minOut, feed parsing
 cd live-execution && npm test
 ```
 
-**E2E full-stack** — enchaîne toute la chaîne (données → CBRI → backtest τ* → ancrage 0G → évacuation Uniswap) et vérifie chaque étape (14 checks) :
+**Full-stack E2E** — chains the entire pipeline (data → CBRI → backtest τ* → 0G anchoring → Uniswap evacuation) and verifies every step (14 checks):
 
 ```bash
-./e2e.sh          # 🟢 Chaîne complète opérationnelle — répétition générale avant démo
+./e2e.sh          # 🟢 Full chain operational — dress rehearsal before the demo
 ```
 
-Plus 7 tests **e2e quant** sur données réelles (`pytest -m e2e`) qui valident les chiffres du pitch (τ*=66, ~$127k sauvés, fond $0.8726).
+Plus 7 **quant e2e** tests on real data (`pytest -m e2e`) validating the pitch numbers (τ*=66, ~$127k saved, bottom $0.8726).
 
 ---
 
-*MVP hackathon — architecture publique assumée (pas de couche privacy/MEV sur ce périmètre).*
+*Hackathon MVP — public architecture assumed (no privacy/MEV layer in this scope).*
