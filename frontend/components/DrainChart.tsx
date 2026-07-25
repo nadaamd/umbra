@@ -63,26 +63,26 @@ export function DrainChart() {
               domain={[start ?? 0, end ?? 1]}
               tickFormatter={hhmm}
               tickLine={false}
-              axisLine={{ stroke: "#1e2329" }}
-              tick={{ fontSize: 9, fill: "#626871" }}
+              axisLine={{ stroke: "#211e19" }}
+              tick={{ fontSize: 9, fill: "#6a6357" }}
               minTickGap={40}
             />
             <YAxis
               tickLine={false}
               axisLine={false}
               width={28}
-              tick={{ fontSize: 9, fill: "#626871" }}
+              tick={{ fontSize: 9, fill: "#6a6357" }}
               tickFormatter={(v) => `${v}`}
             />
             <ReferenceLine
               y={DRAIN_THRESHOLD}
-              stroke="#f5a623"
+              stroke="#f2a93b"
               strokeDasharray="3 3"
               strokeOpacity={0.7}
               label={{
                 value: "knee 6%/h",
                 position: "insideTopRight",
-                fill: "#f5a623",
+                fill: "#f2a93b",
                 fontSize: 9,
                 fontFamily: "var(--font-mono)",
               }}
@@ -97,7 +97,7 @@ export function DrainChart() {
             />
             <Tooltip
               content={<DrainTip />}
-              cursor={{ stroke: "#3c424a", strokeWidth: 1 }}
+              cursor={{ stroke: "#423d34", strokeWidth: 1 }}
             />
           </AreaChart>
         </ResponsiveContainer>

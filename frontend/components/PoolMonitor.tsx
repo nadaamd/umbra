@@ -15,7 +15,7 @@ export function PoolMonitor() {
 
   const depegTone = depegBps > 120 ? "risk" : depegBps > 40 ? "armed" : "safe";
   const depegColor =
-    depegBps > 120 ? "#e5484d" : depegBps > 40 ? "#f5a623" : "#30a46c";
+    depegBps > 120 ? "#ff2233" : depegBps > 40 ? "#f2a93b" : "#35c07a";
 
   return (
     <div className="flex flex-col h-full p-3 gap-3">
@@ -118,7 +118,7 @@ export function PoolMonitor() {
               style={{
                 left: "50%",
                 width: `${(ofi * 50).toFixed(1)}%`,
-                background: draining ? "#d95926" : "#3987e5",
+                background: draining ? "#d95926" : "#ece6d8",
               }}
             />
           </div>

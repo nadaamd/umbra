@@ -66,33 +66,33 @@ export function BacktestSimulator() {
               domain={[10, 99]}
               ticks={[10, 30, 50, 70, 90]}
               tickLine={false}
-              axisLine={{ stroke: "#1e2329" }}
-              tick={{ fontSize: 9, fill: "#626871" }}
+              axisLine={{ stroke: "#211e19" }}
+              tick={{ fontSize: 9, fill: "#6a6357" }}
             />
             <YAxis
               tickLine={false}
               axisLine={false}
               width={30}
-              tick={{ fontSize: 9, fill: "#626871" }}
+              tick={{ fontSize: 9, fill: "#6a6357" }}
               tickFormatter={(v) => `${v}k`}
             />
             <ReferenceLine
               x={tauStar}
-              stroke="#e6e8ea"
+              stroke="#ece6d8"
               strokeDasharray="3 2"
               strokeOpacity={0.5}
               label={{
                 value: `τ* ${tauStar}`,
                 position: "top",
-                fill: "#e6e8ea",
+                fill: "#ece6d8",
                 fontSize: 9,
                 fontFamily: "var(--font-mono)",
               }}
             />
-            <ReferenceLine x={tau} stroke="#f5a623" strokeWidth={1} />
+            <ReferenceLine x={tau} stroke="#f2a93b" strokeWidth={1} />
             <Line
               dataKey="reliable"
-              stroke="#30a46c"
+              stroke="#35c07a"
               strokeWidth={2}
               dot={false}
               isAnimationActive={false}
@@ -101,7 +101,7 @@ export function BacktestSimulator() {
             />
             <Line
               dataKey="risky"
-              stroke="#e5484d"
+              stroke="#ff2233"
               strokeWidth={2}
               strokeDasharray="3 2"
               dot={false}
@@ -114,12 +114,12 @@ export function BacktestSimulator() {
                 x={sel.tau}
                 y={sel.fundsSaved / 1e3}
                 r={4}
-                fill="#f5a623"
-                stroke="#08090a"
+                fill="#f2a93b"
+                stroke="#050505"
                 strokeWidth={1.5}
               />
             )}
-            <Tooltip content={<SweepTip />} cursor={{ stroke: "#3c424a" }} />
+            <Tooltip content={<SweepTip />} cursor={{ stroke: "#423d34" }} />
           </LineChart>
         </ResponsiveContainer>
       </div>

@@ -3,6 +3,7 @@
 import { useBreaker } from "@/lib/store";
 import { stamp } from "@/lib/format";
 import { StatusBadge } from "./StatusBadge";
+import { UmbraMark } from "./UmbraMark";
 
 function SponsorChip({ name, role }: { name: string; role: string }) {
   return (
@@ -20,26 +21,19 @@ export function Header() {
   return (
     <header className="h-14 shrink-0 border-b border-line bg-panel flex items-center justify-between px-4 relative z-10">
       {/* Brand */}
-      <div className="flex items-center gap-3">
-        <div className="w-8 h-8 border border-line2 rounded-sm grid place-items-center bg-bg">
-          {/* circuit-breaker glyph */}
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="9" stroke="#e5484d" strokeWidth="1.6" />
-            <path
-              d="M13.5 6 L9 12.5 h3 L10.5 18 L15 11.5 h-3 Z"
-              fill="#e5484d"
-            />
-          </svg>
+      <a href="/" className="flex items-center gap-3 group" title="Umbra home">
+        <div className="w-8 h-8 border border-line2 grid place-items-center bg-bg group-hover:border-ink3 transition-colors">
+          <UmbraMark size={18} />
         </div>
         <div className="leading-tight">
-          <div className="font-mono text-[15px] tracking-tight text-ink">
-            CircuitBreaker<span className="text-risk">.ai</span>
+          <div className="font-display font-bold text-[16px] tracking-[0.02em] text-ink">
+            UMBRA
           </div>
           <div className="font-mono text-[9px] tracking-[0.12em] uppercase text-ink3">
             Autonomous DeFi Risk Terminal
           </div>
         </div>
-      </div>
+      </a>
 
       {/* Live replay stamp */}
       <div className="hidden md:flex items-center gap-4">

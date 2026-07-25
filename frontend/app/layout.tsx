@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 const sans = Inter({
@@ -14,10 +14,17 @@ const mono = JetBrains_Mono({
   display: "swap",
 });
 
+const display = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-display",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "CircuitBreaker.ai — Autonomous DeFi Risk Terminal",
+  title: "Umbra — The autonomous circuit breaker for DeFi",
   description:
-    "Autonomous financial circuit breaker for DeFi. CBRI risk scoring, backtest to optimal threshold τ*, 1inch emergency evacuation.",
+    "Umbra prices systemic DeFi risk in real time (CBRI 0–100) and evacuates your funds to safety before a pool collapses. The shadow that guards your funds.",
 };
 
 export default function RootLayout({
@@ -27,7 +34,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" data-theme="dark">
-      <body className={`${sans.variable} ${mono.variable} font-sans grain antialiased`}>
+      <body
+        className={`${sans.variable} ${mono.variable} ${display.variable} font-sans antialiased`}
+      >
         {children}
       </body>
     </html>

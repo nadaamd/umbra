@@ -5,10 +5,10 @@
 :root {
   color-scheme: dark;
   /* chart roles — consumed by Recharts via CSS vars where possible */
-  --surface-1: #0e1013;
-  --risk: #e5484d;
-  --safe: #30a46c;
-  --armed: #f5a623;
+  --surface-1: #0b0b0c;
+  --risk: #ff2233;
+  --safe: #3ad07f;
+  --armed: #ffb224;
 }
 
 html {
@@ -17,9 +17,84 @@ html {
 }
 
 body {
-  background: #08090a;
-  color: #e6e8ea;
+  background: #050505;
+  color: #ece6d8;
   font-feature-settings: "tnum" 1, "cv01" 1, "ss01" 1;
+}
+
+::selection {
+  background: rgba(255, 34, 51, 0.28);
+  color: #ece6d8;
+}
+
+/* ── Eclipse atmosphere ─────────────────────────────────────────────
+   One light source. A warm corona lift falls off through penumbra into
+   total umbra. Desaturated on purpose — this is depth, not a glow. */
+.umbra-field {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(
+      116% 84% at 50% -6%,
+      rgba(236, 230, 216, 0.05) 0%,
+      rgba(236, 230, 216, 0.016) 20%,
+      transparent 52%
+    ),
+    radial-gradient(90% 70% at 50% 34%, #0c0b09 0%, #070605 46%, #050505 100%);
+}
+/* corona from the side — used on the hero eclipse column */
+.umbra-field-r {
+  background:
+    radial-gradient(
+      90% 120% at 88% 40%,
+      rgba(236, 230, 216, 0.06) 0%,
+      rgba(236, 230, 216, 0.015) 24%,
+      transparent 54%
+    ),
+    radial-gradient(120% 90% at 60% 40%, #0b0a08 0%, #060605 50%, #050505 100%);
+}
+
+/* Engineering grid, warmed and faded toward umbra at the frame edges so it
+   never reads as a flat template grid. */
+.blueprint {
+  background-image: linear-gradient(rgba(236, 230, 216, 0.026) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(236, 230, 216, 0.026) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: radial-gradient(130% 100% at 50% 0%, #000 30%, transparent 82%);
+  mask-image: radial-gradient(130% 100% at 50% 0%, #000 30%, transparent 82%);
+}
+.blueprint-fine {
+  background-image: linear-gradient(rgba(236, 230, 216, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(236, 230, 216, 0.018) 1px, transparent 1px);
+  background-size: 24px 24px;
+  -webkit-mask-image: radial-gradient(120% 100% at 50% 50%, #000 40%, transparent 88%);
+  mask-image: radial-gradient(120% 100% at 50% 50%, #000 40%, transparent 88%);
+}
+
+/* Corona ring — the 1px light edge + faint atmospheric bloom for focal discs. */
+.corona-ring {
+  box-shadow: 0 0 0 1px rgba(236, 230, 216, 0.22), 0 0 46px -8px rgba(236, 230, 216, 0.07);
+}
+/* Corner ticks for blueprint frames */
+.tick-frame {
+  position: relative;
+}
+.tick-frame::before,
+.tick-frame::after {
+  content: "+";
+  position: absolute;
+  color: #423d34;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1;
+}
+.tick-frame::before {
+  top: -6px;
+  left: -6px;
+}
+.tick-frame::after {
+  bottom: -6px;
+  right: -6px;
 }
 
 /* Tabular numbers everywhere data lives */
@@ -34,7 +109,7 @@ body {
   line-height: 13px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #626871;
+  color: #6a6357;
   font-family: var(--font-mono);
 }
 
@@ -60,14 +135,14 @@ body {
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0e1013;
+  background: #0a0908;
 }
 ::-webkit-scrollbar-thumb {
-  background: #282e36;
+  background: #302c24;
   border-radius: 0;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3c424a;
+  background: #4a4438;
 }
 
 /* Recharts: kill default focus outlines, tighten fonts */
@@ -78,7 +153,7 @@ body {
 .recharts-cartesian-axis-tick text {
   font-family: var(--font-mono);
   font-size: 10px;
-  fill: #626871;
+  fill: #6a6357;
 }
 .recharts-tooltip-wrapper {
   outline: none !important;
@@ -89,7 +164,7 @@ input[type="range"].cb-range {
   -webkit-appearance: none;
   appearance: none;
   height: 3px;
-  background: #282e36;
+  background: #302c24;
   border-radius: 0;
   cursor: pointer;
 }
@@ -98,18 +173,18 @@ input[type="range"].cb-range::-webkit-slider-thumb {
   appearance: none;
   width: 12px;
   height: 18px;
-  background: #e6e8ea;
+  background: #ece6d8;
   border-radius: 1px;
   cursor: grab;
 }
 input[type="range"].cb-range::-webkit-slider-thumb:active {
   cursor: grabbing;
-  background: #f5a623;
+  background: #f2a93b;
 }
 input[type="range"].cb-range::-moz-range-thumb {
   width: 12px;
   height: 18px;
-  background: #e6e8ea;
+  background: #ece6d8;
   border: none;
   border-radius: 1px;
   cursor: grab;

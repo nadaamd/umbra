@@ -64,8 +64,8 @@ export function CbriChart() {
           <AreaChart data={visible} margin={MARGIN} syncId="cb">
             <defs>
               <linearGradient id="cbriFill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#e5484d" stopOpacity={0.28} />
-                <stop offset="100%" stopColor="#e5484d" stopOpacity={0.02} />
+                <stop offset="0%" stopColor="#ff2233" stopOpacity={0.28} />
+                <stop offset="100%" stopColor="#ff2233" stopOpacity={0.02} />
               </linearGradient>
             </defs>
             <XAxis
@@ -75,7 +75,7 @@ export function CbriChart() {
               ticks={xTicks}
               tickFormatter={hhmm}
               tickLine={false}
-              axisLine={{ stroke: "#1e2329" }}
+              axisLine={{ stroke: "#211e19" }}
               tick={{ fontSize: 10 }}
               hide
             />
@@ -85,26 +85,26 @@ export function CbriChart() {
               tickLine={false}
               axisLine={false}
               width={30}
-              tick={{ fontSize: 10, fill: "#626871" }}
+              tick={{ fontSize: 10, fill: "#6a6357" }}
               orientation="left"
             />
-            <ReferenceLine y={arm} stroke="#f5a623" strokeDasharray="2 3" strokeOpacity={0.5} />
+            <ReferenceLine y={arm} stroke="#f2a93b" strokeDasharray="2 3" strokeOpacity={0.5} />
             <ReferenceLine
               y={tau}
-              stroke="#e5484d"
+              stroke="#ff2233"
               strokeDasharray="4 3"
               strokeWidth={1}
               label={{
                 value: `τ* ${tau}`,
                 position: "right",
-                fill: "#e5484d",
+                fill: "#ff2233",
                 fontSize: 10,
                 fontFamily: "var(--font-mono)",
               }}
             />
             <Area
               dataKey="cbri"
-              stroke="#e5484d"
+              stroke="#ff2233"
               strokeWidth={1.6}
               fill="url(#cbriFill)"
               isAnimationActive={false}
@@ -115,14 +115,14 @@ export function CbriChart() {
                 x={trig!.t}
                 y={trig!.cbri}
                 r={4}
-                fill="#30a46c"
-                stroke="#08090a"
+                fill="#35c07a"
+                stroke="#050505"
                 strokeWidth={1.5}
               />
             )}
             <Tooltip
               content={<CbriTooltip />}
-              cursor={{ stroke: "#3c424a", strokeWidth: 1 }}
+              cursor={{ stroke: "#423d34", strokeWidth: 1 }}
             />
           </AreaChart>
         </ResponsiveContainer>
@@ -148,8 +148,8 @@ export function CbriChart() {
               ticks={xTicks}
               tickFormatter={hhmm}
               tickLine={false}
-              axisLine={{ stroke: "#1e2329" }}
-              tick={{ fontSize: 10, fill: "#626871" }}
+              axisLine={{ stroke: "#211e19" }}
+              tick={{ fontSize: 10, fill: "#6a6357" }}
             />
             <YAxis
               domain={[0.85, 1.01]}
@@ -158,19 +158,19 @@ export function CbriChart() {
               tickLine={false}
               axisLine={false}
               width={30}
-              tick={{ fontSize: 10, fill: "#626871" }}
+              tick={{ fontSize: 10, fill: "#6a6357" }}
             />
-            <ReferenceLine y={1} stroke="#3c424a" strokeDasharray="2 3" />
+            <ReferenceLine y={1} stroke="#423d34" strokeDasharray="2 3" />
             {summary && (
               <ReferenceLine
                 y={summary.usdcTrough}
-                stroke="#e5484d"
+                stroke="#ff2233"
                 strokeDasharray="1 4"
                 strokeOpacity={0.6}
                 label={{
                   value: `trough ${summary.usdcTrough.toFixed(3)}`,
                   position: "insideBottomRight",
-                  fill: "#e5484d",
+                  fill: "#ff2233",
                   fontSize: 9,
                   fontFamily: "var(--font-mono)",
                 }}
@@ -178,7 +178,7 @@ export function CbriChart() {
             )}
             <Line
               dataKey="usdc"
-              stroke="#d6d9dd"
+              stroke="#cfc7b5"
               strokeWidth={1.4}
               isAnimationActive={false}
               dot={false}
@@ -188,8 +188,8 @@ export function CbriChart() {
                 x={trig!.t}
                 y={trig!.usdc}
                 r={3.5}
-                fill="#30a46c"
-                stroke="#08090a"
+                fill="#35c07a"
+                stroke="#050505"
                 strokeWidth={1.5}
               />
             )}
