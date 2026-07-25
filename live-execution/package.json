@@ -1,0 +1,19 @@
+{
+  "name": "circuitbreaker-live-execution",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "CircuitBreaker.ai — moteur d'exécution : évacuation d'urgence via 1inch quand CBRI ≥ τ*",
+  "scripts": {
+    "demo": "tsx src/index.ts --replay",
+    "fire": "tsx src/index.ts --cbri",
+    "start": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}

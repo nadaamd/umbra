@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  /* chart roles — consumed by Recharts via CSS vars where possible */
+  --surface-1: #0e1013;
+  --risk: #e5484d;
+  --safe: #30a46c;
+  --armed: #f5a623;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: #08090a;
+  color: #e6e8ea;
+  font-feature-settings: "tnum" 1, "cv01" 1, "ss01" 1;
+}
+
+/* Tabular numbers everywhere data lives */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Micro uppercase label — the terminal's connective tissue */
+.label {
+  font-size: 10px;
+  line-height: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #626871;
+  font-family: var(--font-mono);
+}
+
+/* Hairline dividers that read as engineering, not decoration */
+.hair-x {
+  background-image: linear-gradient(90deg, #1e2329 1px, transparent 1px);
+}
+
+/* Faint CRT-ish grain on the base — extremely subtle, no glow */
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+
+/* Scrollbars — thin, technical */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0e1013;
+}
+::-webkit-scrollbar-thumb {
+  background: #282e36;
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3c424a;
+}
+
+/* Recharts: kill default focus outlines, tighten fonts */
+.recharts-wrapper,
+.recharts-surface {
+  outline: none !important;
+}
+.recharts-cartesian-axis-tick text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  fill: #626871;
+}
+.recharts-tooltip-wrapper {
+  outline: none !important;
+}
+
+/* Range input — institutional slider */
+input[type="range"].cb-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  background: #282e36;
+  border-radius: 0;
+  cursor: pointer;
+}
+input[type="range"].cb-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 18px;
+  background: #e6e8ea;
+  border-radius: 1px;
+  cursor: grab;
+}
+input[type="range"].cb-range::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  background: #f5a623;
+}
+input[type="range"].cb-range::-moz-range-thumb {
+  width: 12px;
+  height: 18px;
+  background: #e6e8ea;
+  border: none;
+  border-radius: 1px;
+  cursor: grab;
+}
