@@ -116,6 +116,14 @@ cd quant-backtest && pip install -r requirements-dev.txt && python -m pytest
 cd live-execution && npm test
 ```
 
+**E2E full-stack** — enchaîne toute la chaîne (données → CBRI → backtest τ* → ancrage 0G → évacuation Uniswap) et vérifie chaque étape (14 checks) :
+
+```bash
+./e2e.sh          # 🟢 Chaîne complète opérationnelle — répétition générale avant démo
+```
+
+Plus 7 tests **e2e quant** sur données réelles (`pytest -m e2e`) qui valident les chiffres du pitch (τ*=66, ~$127k sauvés, fond $0.8726).
+
 ---
 
 *MVP hackathon — architecture publique assumée (pas de couche privacy/MEV sur ce périmètre).*
