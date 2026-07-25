@@ -69,7 +69,9 @@ async function main() {
   const provider = new ethers.JsonRpcProvider(CONFIG.ZEROG_RPC);
   const signer = new ethers.Wallet(CONFIG.ZEROG_PRIVATE_KEY, provider);
   const indexer = new Indexer(CONFIG.ZEROG_INDEXER);
-  const [tx, upErr] = await indexer.upload(file, CONFIG.ZEROG_RPC, signer);
+  // cast: ethers est en double build (ESM/CJS) entre notre code et le SDK 0G ;
+  // le Wallet est structurellement un Signer valide au runtime.
+  const [tx, upErr] = await indexer.upload(file, CONFIG.ZEROG_RPC, signer as never);
   await file.close();
   if (upErr !== null) {
     throw new Error(`Upload 0G échoué : ${upErr}`);
