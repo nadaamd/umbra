@@ -19,6 +19,7 @@ import config
 def exit_slippage(liquidity: np.ndarray, l_ref: float, s_calm: float) -> np.ndarray:
     """Slippage d'évacuation par bougie, vectorisé."""
     liquidity = np.asarray(liquidity, dtype="float64")
-    ratio = np.where(liquidity > 0, l_ref / liquidity, np.inf)
+    with np.errstate(divide="ignore"):
+        ratio = np.where(liquidity > 0, l_ref / liquidity, np.inf)
     slip = s_calm * np.power(ratio, config.SLIP_BETA)
     return np.clip(slip, 0.0, config.SLIP_CAP)

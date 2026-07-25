@@ -4,6 +4,11 @@ import { getQuote, executeSwap } from "./uniswap.js";
 const fmt = (n: number) =>
   n.toLocaleString("en-US", { maximumFractionDigits: 0 });
 
+/** Sortie minimale acceptée = dstAmount · (1 − tolérance%). Protège l'ordre. */
+export function minOut(dstAmount: bigint, maxSlippagePct: number): bigint {
+  return (dstAmount * BigInt(Math.round((100 - maxSlippagePct) * 100))) / 10000n;
+}
+
 /**
  * Évacuation d'urgence. Déclenchée quand CBRI ≥ τ*.
  *  - DRY_RUN (défaut) : quote Uniswap LIVE (read on-chain) + plan, sans envoyer.
@@ -36,9 +41,9 @@ export async function evacuate(ctx: { cbri: number; usdcUsd: number; dt?: string
   if (!CONFIG.EXECUTION_PRIVATE_KEY) {
     throw new Error("Mode LIVE mais EXECUTION_PRIVATE_KEY absente dans .env.");
   }
-  const minOut = (quote.dstAmount * BigInt(Math.round((100 - CONFIG.MAX_SLIPPAGE_PCT) * 100))) / 10000n;
-  console.log(`   exécution    : swap on-chain (min sortie ${fmt(Number(minOut) / 1e6)} USDT)…`);
-  const hash = await executeSwap(amount, minOut);
+  const minAcceptable = minOut(quote.dstAmount, CONFIG.MAX_SLIPPAGE_PCT);
+  console.log(`   exécution    : swap on-chain (min sortie ${fmt(Number(minAcceptable) / 1e6)} USDT)…`);
+  const hash = await executeSwap(amount, minAcceptable);
   console.log(`   ✅ tx envoyée : ${hash}`);
   return { executed: true, hash, outUsdt: quote.outUsdt };
 }

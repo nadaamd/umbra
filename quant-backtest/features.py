@@ -18,6 +18,20 @@ def sigmoid(x):
     return 1.0 / (1.0 + np.exp(-x))
 
 
+def cbri_noisy_or(s_drain, s_ofi, s_depeg, w_drain=None, w_ofi=None, w_depeg=None):
+    """Agrégation Noisy-OR pondérée -> CBRI ∈ [0,100]. Scalaire ou vectorisé.
+
+    CBRI = 100·(1 − ∏(1 − wᵢ·sᵢ)) : le score saute si UN signal vire au rouge ;
+    un poids wᵢ=0 neutralise complètement un signal non-informatif.
+    """
+    w_drain = config.W_DRAIN if w_drain is None else w_drain
+    w_ofi = config.W_OFI if w_ofi is None else w_ofi
+    w_depeg = config.W_DEPEG if w_depeg is None else w_depeg
+    return 100.0 * (1.0 - (1 - w_drain * s_drain)
+                          * (1 - w_ofi * s_ofi)
+                          * (1 - w_depeg * s_depeg))
+
+
 def price_from_sqrtx96(sqrtPriceX96: pd.Series) -> pd.Series:
     """sqrtPriceX96 -> prix USDC par WETH (unités humaines)."""
     price_raw = (sqrtPriceX96 / (2.0 ** 96)) ** 2          # token1_raw / token0_raw
@@ -104,9 +118,7 @@ def build_features() -> pd.DataFrame:
     df["s_depeg"] = sigmoid(config.DEPEG_STEEPNESS * (df["depeg"] - config.DEPEG_THRESHOLD))
 
     # ── Agrégation Noisy-OR pondéré -> CBRI ───────────────────
-    df["cbri"] = 100.0 * (1.0 - (1 - config.W_DRAIN * df["s_drain"])
-                                * (1 - config.W_OFI * df["s_ofi"])
-                                * (1 - config.W_DEPEG * df["s_depeg"]))
+    df["cbri"] = cbri_noisy_or(df["s_drain"], df["s_ofi"], df["s_depeg"])
 
     df["dt"] = pd.to_datetime(df.index, unit="s", utc=True)
     return df

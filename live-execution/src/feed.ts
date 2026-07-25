@@ -13,13 +13,13 @@ export interface Tick {
   cbri: number;
 }
 
-export function loadCbriSeries(): Tick[] {
+export function loadCbriSeries(path: string = CONFIG.CBRI_CSV): Tick[] {
   let raw: string;
   try {
-    raw = readFileSync(CONFIG.CBRI_CSV, "utf8");
+    raw = readFileSync(path, "utf8");
   } catch {
     throw new Error(
-      `Flux CBRI introuvable (${CONFIG.CBRI_CSV}).\n` +
+      `Flux CBRI introuvable (${path}).\n` +
         `Lance d'abord le back : cd ../quant-backtest && python features.py`,
     );
   }

@@ -104,6 +104,18 @@ npm run publish0g           # ④ ancrage modèle+scores sur 0G (traçabilité)
 npm run demo                # ⑤ replay du depeg → le breaker évacue via Uniswap v3
 ```
 
+## 🧪 Tests
+
+**29 tests unitaires** couvrant le cœur logique (modèle, slippage, sélection de τ*, exécution) :
+
+```bash
+# Quant (Python) — 21 tests : sigmoïde, prix v3, Noisy-OR, slippage, τ*, fonds sauvés
+cd quant-backtest && pip install -r requirements-dev.txt && python -m pytest
+
+# Exécution (TS) — 8 tests : conversion position, slippage bps, minOut, parsing feed
+cd live-execution && npm test
+```
+
 ---
 
 *MVP hackathon — architecture publique assumée (pas de couche privacy/MEV sur ce périmètre).*

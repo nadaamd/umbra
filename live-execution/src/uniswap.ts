@@ -77,6 +77,11 @@ export interface Quote {
   slippageBps: number;
 }
 
+/** Slippage en bps d'une sortie (borné à 0 : un prix favorable n'est pas un coût). */
+export function slippageBps(inHuman: number, outHuman: number): number {
+  return Math.max(0, (1 - outHuman / inHuman) * 1e4);
+}
+
 /** Quote LIVE on-chain (read-only, aucun wallet requis). */
 export async function getQuote(amountRaw: bigint): Promise<Quote> {
   const { result } = await publicClient().simulateContract({
@@ -94,8 +99,7 @@ export async function getQuote(amountRaw: bigint): Promise<Quote> {
   const dstAmount = result[0] as bigint;
   const outUsdt = Number(dstAmount) / 10 ** CONFIG.USDT_DECIMALS;
   const inUsdc = Number(amountRaw) / 10 ** CONFIG.USDC_DECIMALS;
-  const slippageBps = Math.max(0, (1 - outUsdt / inUsdc) * 1e4);
-  return { dstAmount, outUsdt, slippageBps };
+  return { dstAmount, outUsdt, slippageBps: slippageBps(inUsdc, outUsdt) };
 }
 
 /** Exécute l'évacuation on-chain (mode LIVE) : approve USDC si besoin, puis swap. */
