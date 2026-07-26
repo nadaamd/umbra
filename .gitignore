@@ -22,3 +22,6 @@ quant-backtest/output/*.csv
 
 # OS
 .DS_Store
+
+# Private — demo talk track (kept local, not published)
+docs/DEMO_SCRIPT.md

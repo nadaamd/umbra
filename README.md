@@ -9,7 +9,7 @@
 
 📄 **Research paper** — full risk-score methodology: [PDF](paper/Umbra_CBRI_Paper.pdf) · [Word](paper/Umbra_CBRI_Paper.docx). Single source (`paper/content.py`), regenerable via `python paper/build_paper.py` (Word) and `python paper/build_pdf.py` (PDF).
 
-🎤 **Pitch deck** (math, on-brand 16:9): [`paper/Umbra_Slides.pdf`](paper/Umbra_Slides.pdf) — `python paper/build_slides.py`.  ·  🎬 **Live demo script**: [`docs/DEMO_SCRIPT.md`](docs/DEMO_SCRIPT.md).
+🎤 **Pitch deck** (math, on-brand 16:9): [`paper/Umbra_Slides.pdf`](paper/Umbra_Slides.pdf) — `python paper/build_slides.py`.
 
 ---
 
