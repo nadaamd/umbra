@@ -3,6 +3,8 @@
 > **The autonomous financial circuit breaker for DeFi.**
 > Detects systemic risk (liquidity crises, depegs) through a quantitative model, and automatically evacuates users' funds into a safe stablecoin — **before** the pool collapses.
 
+### ▶ Live demo: **[umbra-ten-iota.vercel.app](https://umbra-ten-iota.vercel.app)**  ·  Risk terminal: **[/terminal](https://umbra-ten-iota.vercel.app/terminal)**
+
 🏆 *ETH Global Lisbon 2026 — Tracks: The Graph · 0G* · (Uniswap v3 execution)
 
 📄 **Research paper** — full risk-score methodology: [PDF](paper/Umbra_CBRI_Paper.pdf) · [Word](paper/Umbra_CBRI_Paper.docx). Single source (`paper/content.py`), regenerable via `python paper/build_paper.py` (Word) and `python paper/build_pdf.py` (PDF).
